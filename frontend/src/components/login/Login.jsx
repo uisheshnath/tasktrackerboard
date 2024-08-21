@@ -17,7 +17,7 @@ const Login = () => {
                             <div className="card rounded-5">
                                 <div className="card-body p-12">
                                     <h2 className="card-title">Sign In</h2>
-                                    <p className="card-text">Don't have an account? <NavLink to={'/signup'}>Sign Up</NavLink></p>
+                                    <p className="card-text">Don't have an account? Really?<NavLink to={'/signup'}>Sign Up</NavLink></p>
                                     <form action="">
                                         <div className="form-floating mb-3">
                                             <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
