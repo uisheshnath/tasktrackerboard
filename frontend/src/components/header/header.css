@@ -1,0 +1,17 @@
+.header-profile-pic {
+    width: 100%;
+    max-width: 50px;
+}
+
+.header-nav-links {
+    font-size: 16px;
+}
+
+.task_tracker_board{
+    width: 100%;
+    max-width: 150px;
+}
+
+.container-fluid{
+    padding: 10px 20px;
+}

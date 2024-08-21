@@ -1,0 +1,46 @@
+.projects-heading {
+    font-size: 28px;
+}
+
+.projects-update-heading {
+    font-size: 28px;
+}
+
+.project-card {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.project-card-info-icon {
+    color: #333333;
+}
+
+.projects-slide {
+    overflow-x: scroll;
+    padding-block: 10px;
+    padding-left: 10px;
+}
+
+.add-project-card {
+    padding-block: 10px;
+}
+
+/* Modal Pills Css */
+
+.pill-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+.pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 15px;
+}
+.pill .close-icon {
+    cursor: pointer;
+    margin-left: 10px;
+}
