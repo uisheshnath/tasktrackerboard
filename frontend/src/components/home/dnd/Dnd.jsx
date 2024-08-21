@@ -122,6 +122,15 @@ const Dnd = () => {
                                     <li>
                                         <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Delete</a>
                                     </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Move to In Progress</a>
+                                    </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Move to To-Do</a>
+                                    </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Move to Done</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -218,6 +227,15 @@ const Dnd = () => {
                                     <li>
                                         <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Delete</a>
                                     </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Move to In Progress</a>
+                                    </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Move to To-Do</a>
+                                    </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Move to Done</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -313,12 +331,18 @@ function dropIt(ev) {
     ev.preventDefault();
     const data = ev.dataTransfer.getData("text/plain");
     const draggedElement = document.getElementById(data);
-    
+    let columnHeading;
+
     if (ev.target.className.includes("column")) {
         ev.target.appendChild(draggedElement);
+        columnHeading = ev.target.querySelector(".progress_board_heading h3").textContent.trim();
+        alert(`Task moved to "${columnHeading}"`);
     } else if (ev.target.className.includes("task-card")) {
         ev.target.parentElement.appendChild(draggedElement);
+        columnHeading = ev.target.parentElement.querySelector(".progress_board_heading h3").textContent.trim();
+        alert(`Task moved to "${columnHeading}"`);
     }
 }
+
 
 export default Dnd;
