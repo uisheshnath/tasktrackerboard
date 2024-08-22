@@ -23,28 +23,28 @@ app.use(cookieParser())
 
 
 // for register
-const verifyUser = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.json({ Error: "You are not authorised" })
-  }
-  else {
-    jwt.verify(token, "jwt-secret-key", (err, decoded) => {
-      if (err) {
-        return res.json({ Error: "Token is not okey" })
-      }
-      else {
-        req.name = decoded.name;
-        req.email = decoded.email;
-        next()
-      }
-    })
-  }
-}
+// const verifyUser = (req, res, next) => {
+//   const token = req.cookies.token;
+//   if (!token) {
+//     return res.json({ Error: "You are not authorised" })
+//   }
+//   else {
+//     jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+//       if (err) {
+//         return res.json({ Error: "Token is not okey" })
+//       }
+//       else {
+//         req.name = decoded.name;
+//         req.email = decoded.email;
+//         next()
+//       }
+//     })
+//   }
+// }
 
-app.get('/', verifyUser, (req, res) => {
-  return res.json({ Status: "Success", name: req.name, email: req.email })
-})
+// app.get('/', verifyUser, (req, res) => {
+//   return res.json({ Status: "Success", name: req.name, email: req.email })
+// })
 
 
 app.use(userRout)
