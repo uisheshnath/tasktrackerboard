@@ -80,6 +80,15 @@ const Dnd = () => {
                                     <li>
                                         <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Delete</a>
                                     </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Move to In Progress</a>
+                                    </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Move to To-Do</a>
+                                    </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Move to Done</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
