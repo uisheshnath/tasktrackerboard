@@ -1,7 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 const Signup = () => {
+
+    // Initialize state for form fields
+    const [formData, setFormData] = useState({
+        empName: '',
+        empId: '',
+        reportingTo: '',
+        reportingToId: '',
+        designation: '',
+        department: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        terms: false,
+    });
+    // Handle change events for form fields
+    const handleChange = (e) => {
+        const { id, value, type, checked } = e.target;
+        setFormData(prevData => ({
+            ...prevData,
+            [id]: type === 'checkbox' ? checked : value
+        }));
+    };
+
+    // Validate form fields
+    const validateForm = () => {
+        if (formData.password !== formData.confirmPassword) {
+            console.log('Passwords do not match');
+        }
+    }
+    // Handle form submission
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Log or process the form data
+        if(formData.password !== formData.confirmPassword){
+           console.log("error")
+        }
+        else{
+            console.log('Form Data Submitted:', formData);
+        }
+       
+    };
+
     return (
         <>
             <div className="container-fluid bg-primary">
@@ -18,40 +60,79 @@ const Signup = () => {
                                 <div className="card-body p-12">
                                     <h2 className="card-title">Sign Up</h2>
                                     <p className="card-text">Already have an account? <NavLink to={'/login'}>Sign In</NavLink></p>
-                                    <form action="">
+                                    <form onSubmit={handleSubmit}>
                                         <div className="row g-md-3">
                                             <div className="col-md-6">
                                                 <div className="form-floating mb-3">
-                                                    <input type="text" className="form-control" id="floatingInput" placeholder="Name" />
-                                                    <label for="floatingInput">Name</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="empName"
+                                                        placeholder="Name"
+                                                        value={formData.empName}
+                                                        onChange={handleChange}
+                                                        required
+                                                    />
+                                                    <label htmlFor="empName">Name</label>
                                                 </div>
                                             </div>
                                             <div className="col-md-6">
                                                 <div className="form-floating mb-3">
-                                                    <input type="text" className="form-control" id="floatingInput" placeholder="Emp ID" />
-                                                    <label for="floatingInput">Emp ID</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="empId"
+                                                        placeholder="Emp ID"
+                                                        value={formData.empId}
+                                                        onChange={handleChange}
+                                                        required
+                                                    />
+                                                    <label htmlFor="empId">Emp ID</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="row g-md-3">
                                             <div className="col-md-6">
                                                 <div className="form-floating mb-3">
-                                                    <input type="text" className="form-control" id="floatingInput" placeholder="Reporting To" />
-                                                    <label for="floatingInput">Reporting To</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="reportingTo"
+                                                        placeholder="Reporting To"
+                                                        value={formData.reportingTo}
+                                                        onChange={handleChange}
+                                                        required
+                                                    />
+                                                    <label htmlFor="reportingTo">Reporting To</label>
                                                 </div>
                                             </div>
                                             <div className="col-md-6">
                                                 <div className="form-floating mb-3">
-                                                    <input type="text" className="form-control" id="floatingInput" placeholder="Reporting To ID" />
-                                                    <label for="floatingInput">Reporting To ID</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="reportingToId"
+                                                        placeholder="Reporting To ID"
+                                                        value={formData.reportingToId}
+                                                        onChange={handleChange}
+                                                        required
+                                                    />
+                                                    <label htmlFor="reportingToId">Reporting To ID</label>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row g-md-3">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <select class="form-select" id="designationSelect" aria-label="Designation">
-                                                        <option>Select Designation</option>
+                                        <div className="row g-md-3">
+                                            <div className="col-md-6">
+                                                <div className="form-floating mb-3">
+                                                    <select
+                                                        className="form-select"
+                                                        id="designation"
+                                                        aria-label="Designation"
+                                                        value={formData.designation}
+                                                        onChange={handleChange}
+                                                        required
+                                                    >
+                                                        <option value="">Select Designation</option>
                                                         <option value="1">Intern</option>
                                                         <option value="2">Junior</option>
                                                         <option value="3">Mid</option>
@@ -60,49 +141,87 @@ const Signup = () => {
                                                         <option value="6">Team Lead</option>
                                                         <option value="7">HOD</option>
                                                     </select>
-                                                    <label for="designationSelect">Designation</label>
+                                                    <label htmlFor="designation">Designation</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <select class="form-select" id="departmentSelect" aria-label="Department">
-                                                        <option>Select Department</option>
+                                            <div className="col-md-6">
+                                                <div className="form-floating mb-3">
+                                                    <select
+                                                        className="form-select"
+                                                        id="department"
+                                                        aria-label="Department"
+                                                        value={formData.department}
+                                                        onChange={handleChange}
+                                                        required
+                                                    >
+                                                        <option value="">Select Department</option>
                                                         <option value="1">Frontend</option>
                                                         <option value="2">Backend</option>
                                                         <option value="3">Testing</option>
                                                     </select>
-                                                    <label for="departmentSelect">Department</label>
+                                                    <label htmlFor="department">Department</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="row g-md-3">
                                             <div className="col-md-12">
                                                 <div className="form-floating mb-3">
-                                                    <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
-                                                    <label for="floatingInput">Email address</label>
+                                                    <input
+                                                        type="email"
+                                                        className="form-control"
+                                                        id="email"
+                                                        placeholder="name@example.com"
+                                                        value={formData.email}
+                                                        onChange={handleChange}
+                                                        required
+                                                    />
+                                                    <label htmlFor="email">Email address</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="row g-md-3">
                                             <div className="col-md-6">
                                                 <div className="form-floating mb-3">
-                                                    <input type="password" className="form-control" id="floatingInput" placeholder="Password" />
-                                                    <label for="floatingInput">Password</label>
+                                                    <input
+                                                        type="password"
+                                                        className="form-control"
+                                                        id="password"
+                                                        placeholder="Password"
+                                                        value={formData.password}
+                                                        onChange={handleChange}
+                                                        required
+                                                    />
+                                                    <label htmlFor="password">Password</label>
                                                 </div>
                                             </div>
                                             <div className="col-md-6">
                                                 <div className="form-floating mb-3">
-                                                    <input type="password" className="form-control" id="floatingInput" placeholder="Confirm Password" />
-                                                    <label for="floatingInput">Confirm Password</label>
+                                                    <input
+                                                        type="password"
+                                                        className="form-control"
+                                                        id="confirmPassword"
+                                                        placeholder="Confirm Password"
+                                                        value={formData.confirmPassword}
+                                                        onChange={handleChange}
+                                                        required
+                                                    />
+                                                    <label htmlFor="confirmPassword">Confirm Password</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="mb-3">
                                             <div className="d-flex justify-content-between">
                                                 <div className="form-check">
-                                                    <input className="form-check-input" type="checkbox" id="disabledFieldsetCheck" />
-                                                    <label className="form-check-label" for="disabledFieldsetCheck">
-                                                        By submiting this form, you agree to the <NavLink>Privacy Policy</NavLink> and <NavLink>Terms & Conditions</NavLink>
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="checkbox"
+                                                        id="terms"
+                                                        checked={formData.terms}
+                                                        onChange={handleChange}
+                                                        required
+                                                    />
+                                                    <label className="form-check-label" htmlFor="terms">
+                                                        By submitting this form, you agree to the <a href="#">Privacy Policy</a> and <a href="#">Terms & Conditions</a>.
                                                     </label>
                                                 </div>
                                             </div>
