@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Signup = () => {
-
-    // Initialize state for form fields
     const [formData, setFormData] = useState({
         empName: '',
         empId: '',
@@ -16,32 +14,88 @@ const Signup = () => {
         confirmPassword: '',
         terms: false,
     });
-    // Handle change events for form fields
-    const handleChange = (e) => {
+
+    const [errors, setErrors] = useState({});
+    const [showToast, setShowToast] = useState(false);
+
+    const handleInputChange = (e) => {
         const { id, value, type, checked } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [id]: type === 'checkbox' ? checked : value
-        }));
+
+        if (id === "empId" || id === "reportingToId") {
+            if (value.length > 7) {
+                return;
+            } else if (!/^[a-zA-Z0-9-]*$/.test(value)) {
+                return;
+            }
+        }
+
+        if (id === "empName" || id === "reportingTo") {
+            if (value.length > 50) return;
+            const sanitizedValue = value.replace(/\s\s+/g, ' ');
+            setFormData(prevData => ({ ...prevData, [id]: sanitizedValue }));
+        } else {
+            setFormData(prevData => ({
+                ...prevData,
+                [id]: type === 'checkbox' ? checked : value
+            }));
+        }
+
+        if (id === 'confirmPassword' && value === '') {
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                confirmPassword: ''
+            }));
+        }
+
+        if (id === 'email') {
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                email: ''
+            }));
+        }
     };
 
-    // Validate form fields
-    const validateForm = () => {
-        if (formData.password !== formData.confirmPassword) {
-            console.log('Passwords do not match');
+    const handleNameKeyDown = (e) => {
+        const allowedKeys = /^[a-zA-Z\s]*$/;
+        if (!allowedKeys.test(e.key) || (e.key === ' ' && e.target.value.slice(-1) === ' ')) {
+            e.preventDefault();
         }
-    }
-    // Handle form submission
+    };
+
+    const handleEmailBlur = () => {
+        const emailRegex = /^[\w]*@*[a-z]*\.*[\w]{5,}(\.)*(com)*(@gmail\.com)?$/;
+        if (!emailRegex.test(formData.email)) {
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                email: "Please enter a valid email address."
+            }));
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Log or process the form data
-        if(formData.password !== formData.confirmPassword){
-           console.log("error")
+        let formIsValid = true;
+        const newErrors = {};
+
+        if (formData.password !== formData.confirmPassword) {
+            formIsValid = false;
+            newErrors.confirmPassword = "Passwords do not match.";
         }
-        else{
-            console.log('Form Data Submitted:', formData);
+
+        if (!formData.email || errors.email) {
+            formIsValid = false;
+            newErrors.email = "Please enter a valid email address.";
         }
-       
+
+        if (!formIsValid) {
+            setErrors(newErrors);
+            return;
+        }
+
+        setErrors({});
+        console.log('Form Data Submitted:', formData);
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
     };
 
     return (
@@ -53,7 +107,6 @@ const Signup = () => {
                             <img src={process.env.PUBLIC_URL + 'assets/img/logoicon.png'} alt="Icon" className='mb-4' style={{ width: '50px' }} />
                             <h2 className="card-title mb-2 fw-semibold">Task Tracker Board</h2>
                             <h4 className="card-title mb-3 fw-lighter lh-base">Making the daily tasks and project updates maintaining easy and properly trackable</h4>
-                            {/* <p className="card-text fw-light">This is designed for the leads to update and track their team's daily tasks efficiently. This tool allows easy task assignment, deadline setting, and real-time progress updates, ensuring clear communication and improved team productivity.</p> */}
                         </div>
                         <div className="col-md-6">
                             <div className="card rounded-5">
@@ -70,7 +123,8 @@ const Signup = () => {
                                                         id="empName"
                                                         placeholder="Name"
                                                         value={formData.empName}
-                                                        onChange={handleChange}
+                                                        onChange={handleInputChange}
+                                                        onKeyDown={handleNameKeyDown}
                                                         required
                                                     />
                                                     <label htmlFor="empName">Name</label>
@@ -84,7 +138,7 @@ const Signup = () => {
                                                         id="empId"
                                                         placeholder="Emp ID"
                                                         value={formData.empId}
-                                                        onChange={handleChange}
+                                                        onChange={handleInputChange}
                                                         required
                                                     />
                                                     <label htmlFor="empId">Emp ID</label>
@@ -100,7 +154,8 @@ const Signup = () => {
                                                         id="reportingTo"
                                                         placeholder="Reporting To"
                                                         value={formData.reportingTo}
-                                                        onChange={handleChange}
+                                                        onChange={handleInputChange}
+                                                        onKeyDown={handleNameKeyDown}
                                                         required
                                                     />
                                                     <label htmlFor="reportingTo">Reporting To</label>
@@ -114,7 +169,7 @@ const Signup = () => {
                                                         id="reportingToId"
                                                         placeholder="Reporting To ID"
                                                         value={formData.reportingToId}
-                                                        onChange={handleChange}
+                                                        onChange={handleInputChange}
                                                         required
                                                     />
                                                     <label htmlFor="reportingToId">Reporting To ID</label>
@@ -129,7 +184,7 @@ const Signup = () => {
                                                         id="designation"
                                                         aria-label="Designation"
                                                         value={formData.designation}
-                                                        onChange={handleChange}
+                                                        onChange={handleInputChange}
                                                         required
                                                     >
                                                         <option value="">Select Designation</option>
@@ -151,7 +206,7 @@ const Signup = () => {
                                                         id="department"
                                                         aria-label="Department"
                                                         value={formData.department}
-                                                        onChange={handleChange}
+                                                        onChange={handleInputChange}
                                                         required
                                                     >
                                                         <option value="">Select Department</option>
@@ -168,14 +223,20 @@ const Signup = () => {
                                                 <div className="form-floating mb-3">
                                                     <input
                                                         type="email"
-                                                        className="form-control"
+                                                        className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                                                         id="email"
                                                         placeholder="name@example.com"
                                                         value={formData.email}
-                                                        onChange={handleChange}
+                                                        onChange={handleInputChange}
+                                                        onBlur={handleEmailBlur}
                                                         required
                                                     />
                                                     <label htmlFor="email">Email address</label>
+                                                    {errors.email && (
+                                                        <div className="invalid-feedback">
+                                                            {errors.email}
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -188,7 +249,7 @@ const Signup = () => {
                                                         id="password"
                                                         placeholder="Password"
                                                         value={formData.password}
-                                                        onChange={handleChange}
+                                                        onChange={handleInputChange}
                                                         required
                                                     />
                                                     <label htmlFor="password">Password</label>
@@ -198,14 +259,19 @@ const Signup = () => {
                                                 <div className="form-floating mb-3">
                                                     <input
                                                         type="password"
-                                                        className="form-control"
+                                                        className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
                                                         id="confirmPassword"
                                                         placeholder="Confirm Password"
                                                         value={formData.confirmPassword}
-                                                        onChange={handleChange}
+                                                        onChange={handleInputChange}
                                                         required
                                                     />
                                                     <label htmlFor="confirmPassword">Confirm Password</label>
+                                                    {errors.confirmPassword && (
+                                                        <div className="invalid-feedback">
+                                                            {errors.confirmPassword}
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -217,7 +283,7 @@ const Signup = () => {
                                                         type="checkbox"
                                                         id="terms"
                                                         checked={formData.terms}
-                                                        onChange={handleChange}
+                                                        onChange={handleInputChange}
                                                         required
                                                     />
                                                     <label className="form-check-label" htmlFor="terms">
@@ -234,8 +300,21 @@ const Signup = () => {
                     </div>
                 </div>
             </div>
-        </>
-    )
-}
 
-export default Signup
+            <div className={`toast-container top-0 end-0 p-3 `} style={{ position: 'fixed', zIndex: 1050 }}>
+                <div className={`toast ${showToast ? 'show' : 'hide'} fade`} role="alert" aria-live="assertive" aria-atomic="true">
+                    <div className="toast-body text-bg-success">
+                        <div className="d-flex gap-4">
+                            <div className="d-flex flex-grow-1 align-items-center">
+                                <span className="fw-semibold">Profile created successfully!</span>
+                                <button type="button" className="btn-close btn-close-sm btn-close-black ms-auto" aria-label="Close" onClick={() => setShowToast(false)}></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default Signup;
