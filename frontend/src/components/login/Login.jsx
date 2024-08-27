@@ -35,7 +35,7 @@ const Login = () => {
                                                         Keep me logged in
                                                     </label>
                                                 </div>
-                                                <p className="card-text"><NavLink>Forgot Password</NavLink></p>
+                                                <p className="card-text"><NavLink to={'/forgetPassword'}>Forgot Password</NavLink></p>
                                             </div>
                                         </div>
                                         <button type="submit" className="btn btn-primary w-100 py-2">Submit</button>
