@@ -4,6 +4,7 @@ import Login from './components/login/Login';
 import Main from './pages/main/Main';
 import Signup from './components/signup/Signup';
 import Heirarchy from './pages/heirarchy/Heirarchy';
+import ForgotPassword from './components/forgetPassword/forgetPassword';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path='/login' element={<Login/>} />
           <Route path='/signup' element={<Signup/>} />
           <Route path='/heirarchy' element={<Heirarchy/>} />
+          <Route path='/forgetpassword' element={<ForgotPassword/>} />
         </Routes>
       </Router>
     </>
