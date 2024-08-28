@@ -77,7 +77,7 @@ const userController = {
 
                 // Compare plaintext password (NOT RECOMMENDED for real applications)
                 if (req.body.emp_password === user.emp_password) {
-                    const payload = {name: user};
+                    const payload = {user};
                     const token = jwt.sign({ payload }, "jwt-secret-key", { expiresIn: '30d' });
                     res.cookie("token", token);
                     return res.json({ Status: "Success" , token });

@@ -129,7 +129,7 @@ const Signup = () => {
                         console.log(response.data.Error);
                         if (response.data.Status === 'Success') {
                             setShowToast(true);
-                            setTimeout(() => { navigate("/login");}, 1500);
+                            setTimeout(() => { navigate("/login");}, 1000);
                         }
                         else {
                             alert(response.data.Error)
@@ -234,13 +234,13 @@ const Signup = () => {
                                                             required
                                                         >
                                                             <option value="">Select Designation</option>
-                                                            <option value="1">Intern</option>
-                                                            <option value="2">Junior</option>
-                                                            <option value="3">Mid</option>
-                                                            <option value="4">Senior</option>
-                                                            <option value="5">TR</option>
-                                                            <option value="6">Team Lead</option>
-                                                            <option value="7">HOD</option>
+                                                            <option value="Intern">Intern</option>
+                                                            <option value="Junior">Junior</option>
+                                                            <option value="Mid">Mid</option>
+                                                            <option value="Senior">Senior</option>
+                                                            <option value="TR">TR</option>
+                                                            <option value="Team Lead">Team Lead</option>
+                                                            <option value="HOD">HOD</option>
                                                         </select>
                                                         <label htmlFor="designation">Designation</label>
                                                     </div>
@@ -256,9 +256,9 @@ const Signup = () => {
                                                             required
                                                         >
                                                             <option value="">Select Department</option>
-                                                            <option value="1">Frontend</option>
-                                                            <option value="2">Backend</option>
-                                                            <option value="3">Testing</option>
+                                                            <option value="Frontend">Frontend</option>
+                                                            <option value="Backend">Backend</option>
+                                                            <option value="Testing">Testing</option>
                                                         </select>
                                                         <label htmlFor="department">Department</label>
                                                     </div>

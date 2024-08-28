@@ -9,12 +9,11 @@ import ForgotPassword from './components/forgetPassword/forgetPassword';
 
 function App() {
 
-
   return (
     <>
       <Router>
         <Routes>
-        <Route path='/' element={<Home/>} />
+          <Route path='/' element={<Home/>} />
           <Route path='/dashboard' element={<Main/>} />
           <Route path='/login' element={<Login/>} />
           <Route path='/signup' element={<Signup/>} />
