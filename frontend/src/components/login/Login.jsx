@@ -1,7 +1,39 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+let myurls = process.env.REACT_APP_COMMONURL
+// import Cookies from "js-cookie"
 
 const Login = () => {
+    const navigate = useNavigate();
+    const [emp_email, setEmail] = useState()
+    const [emp_password, setPassword] = useState()
+    const [terms, setTerms] = useState(null)
+    const [showToast, setShowToast] = useState(false);
+
+    axios.defaults.withCredentials = true;
+
+    // console.log(terms, myurls)
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (terms) {
+            axios.post(`${myurls}/api/login`, { emp_email, emp_password })
+                .then((res) => {
+                    if (res.data.Status === "Success") {
+                        setShowToast(true);
+                        setTimeout(() => { navigate('/') }, 1500);
+
+                    } else {
+                        console.log(res.data.Error);
+                    }
+                })
+                .catch((err) => { console.log(err) })
+        }
+
+    }
+
+
     return (
         <>
             <div className="container-fluid bg-primary">
@@ -18,20 +50,20 @@ const Login = () => {
                                 <div className="card-body p-12">
                                     <h2 className="card-title">Sign In</h2>
                                     <p className="card-text">Don't have an account? <NavLink to={'/signup'}>Sign Up</NavLink></p>
-                                    <form action="">
+                                    <form action="" onSubmit={handleSubmit}>
                                         <div className="form-floating mb-3">
-                                            <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
-                                            <label for="floatingInput">Email address</label>
+                                            <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" onChange={(e) => setEmail(e.target.value)} required />
+                                            <label htmlFor="floatingInput">Email address</label>
                                         </div>
                                         <div className="form-floating mb-3">
-                                            <input type="password" className="form-control" id="floatingPassword" placeholder="Password" />
-                                            <label for="floatingPassword">Password</label>
+                                            <input type="password" className="form-control" id="floatingPassword" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
+                                            <label htmlFor="floatingPassword">Password</label>
                                         </div>
                                         <div className="mb-3">
                                             <div className="d-flex justify-content-between">
                                                 <div className="form-check">
-                                                    <input className="form-check-input" type="checkbox" id="disabledFieldsetCheck" />
-                                                    <label className="form-check-label" for="disabledFieldsetCheck">
+                                                    <input className="form-check-input" type="checkbox" id="disabledFieldsetCheck" checked={terms} onChange={(e) => setTerms(e.target.value)} />
+                                                    <label className="form-check-label" htmlFor="disabledFieldsetCheck">
                                                         Keep me logged in
                                                     </label>
                                                 </div>
@@ -41,6 +73,18 @@ const Login = () => {
                                         <button type="submit" className="btn btn-primary w-100 py-2">Submit</button>
                                     </form>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className={`toast-container top-0 end-0 p-3 `} style={{ position: 'fixed', zIndex: 1050 }}>
+                <div className={`toast ${showToast ? 'show' : 'hide'} fade`} role="alert" aria-live="assertive" aria-atomic="true">
+                    <div className="toast-body text-bg-success">
+                        <div className="d-flex gap-4">
+                            <div className="d-flex flex-grow-1 align-items-center">
+                                <span className="fw-semibold">Logged In successfully!</span>
+                                <button type="button" className="btn-close btn-close-sm btn-close-black ms-auto" aria-label="Close" onClick={() => setShowToast(false)}></button>
                             </div>
                         </div>
                     </div>

@@ -4,13 +4,17 @@ import Login from './components/login/Login';
 import Main from './pages/main/Main';
 import Signup from './components/signup/Signup';
 import Heirarchy from './pages/heirarchy/Heirarchy';
+import Home from './pages/Home';
 import ForgotPassword from './components/forgetPassword/forgetPassword';
 
 function App() {
+
+
   return (
     <>
       <Router>
         <Routes>
+        <Route path='/' element={<Home/>} />
           <Route path='/dashboard' element={<Main/>} />
           <Route path='/login' element={<Login/>} />
           <Route path='/signup' element={<Signup/>} />

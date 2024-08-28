@@ -2,20 +2,13 @@
 
 const express = require("express")
 const mysql = require("mysql")
-const cors = require('cors')
 const jwt = require("jsonwebtoken")
-// const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt")
 const cookieParser = require("cookie-parser")
 let port = 4000
 const salt = 10
 const app = express()
 app.use(express.json())
-app.use(cors({
-    origin: ["http://localhost:3000"],
-    methods: ["POST", "GET"],
-    credentials: true
-}
-))
 app.use(cookieParser())
 
 
@@ -59,11 +52,8 @@ const userController = {
                 else{
                     db.query(sql, [values], (err, results) => {
                         if (!err) {
-                            return res.json(results)
-                            res.json({ message: "data inserted" })
-                        } else {
-                            console.log(err);
-                            res.json({ Error: `Error for inserting data` })
+                            return res.json({ Status:"Success" })
+                        } else {res.json({ Error: `Error for inserting data` })
                         }
                     })
                 }  
@@ -87,10 +77,10 @@ const userController = {
 
                 // Compare plaintext password (NOT RECOMMENDED for real applications)
                 if (req.body.emp_password === user.emp_password) {
-                    const name = { id: user.id, name: user.emp_name, email: user.emp_email }; // You can adjust this as needed
-                    const token = jwt.sign({ name }, "jwt-secret-key", { expiresIn: '30d' });
+                    const payload = {name: user};
+                    const token = jwt.sign({ payload }, "jwt-secret-key", { expiresIn: '30d' });
                     res.cookie("token", token);
-                    return res.json({ Status: "Success" });
+                    return res.json({ Status: "Success" , token });
                 } else {
                     return res.json({ Error: "Passwords do not match." });
                 }
@@ -101,9 +91,9 @@ const userController = {
         });
     },
 
-    userverify: (req, res) => {
-        return res.json({ Status: "Success", name: req.emp_name, name: req.emp_email })
-    },
+    // userverify: (req, res) => {
+    //     return  res.json({ Status: "Success" , name:req.name});
+    // },
     logout: (req, res) => {
         res.clearCookie('token');
         return res.json({ Status: "Success" })
