@@ -16,20 +16,18 @@ const Login = () => {
     // console.log(terms, myurls)
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        if (terms) {
+        e.preventDefault() 
             axios.post(`${myurls}/api/login`, { emp_email, emp_password })
                 .then((res) => {
                     if (res.data.Status === "Success") {
                         setShowToast(true);
-                        setTimeout(() => { navigate('/') }, 1500);
+                        setTimeout(() => { navigate('/') }, 1000);
 
                     } else {
                         console.log(res.data.Error);
                     }
                 })
                 .catch((err) => { console.log(err) })
-        }
 
     }
 
