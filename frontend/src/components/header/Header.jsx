@@ -49,7 +49,7 @@ const Header = () => {
                                     <NavLink className="nav-link header-nav-links">Recognition</NavLink>
                                 </li>
                             </ul>
-                            <div>
+                            <div className="profile_notification">
                                 <div className="dropdown">
                                     <img src={process.env.PUBLIC_URL + 'assets/img/dummy/displaypic.jpeg'} alt="Jhon Doe" className='dropdown-toggle header-profile-pic rounded-5' data-bs-toggle="dropdown" aria-expanded="false" />
                                     <ul className="dropdown-menu dropdown-menu-end">
