@@ -2,12 +2,14 @@ const express = require("express")
 const cors = require('cors') 
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser")  
-let port=4000
+require('dotenv').config()
 const userRout = require("./router/userRouter")
 const app = express()
 app.use(express.json()) 
+
+let port=process.env.DB_PORT
 app.use(cors({
-  origin: ["http://localhost:3000"],
+  origin: [process.env.FRONTEND_URL],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 }

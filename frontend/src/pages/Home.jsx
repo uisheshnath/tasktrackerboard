@@ -19,7 +19,7 @@ function Home() {
                     setAuth(false)
                     setMessage(response.data.Error)
                 }
-            })
+            }) 
             .catch((error) => {
                 setMessage(error.message)
             })
@@ -40,16 +40,16 @@ function Home() {
     }
 
     const renderDayContent = () => {
-        let designation = (message.user.designation).toLowerCase()
+        let designation = (message?.user?.designation)?.toLowerCase()
         switch (designation) {
             case 'intern':
-                return <Emploee />
+                return <Employee />
             case "junior":
-                return <Emploee />
+                return <Employee />
             case "mid":
-                return <Emploee />
+                return <Employee />
             case "senior":
-                return <Emploee />
+                return <Employee />
             case "tr":
                 return <TRs />
             case "team lead":
@@ -87,8 +87,8 @@ function Home() {
 }
 
 
-const Emploee = () => {
-    return <h3>Emploee content</h3>;
+const Employee = () => {
+    return <h3>Employee content</h3>;
 };
 
 const TLead = () => {
