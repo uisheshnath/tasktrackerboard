@@ -1,8 +1,22 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './header.css'
+import axios from 'axios'
+let myurl = process.env.REACT_APP_COMMONURL
+
 
 const Header = () => {
+    const handleLogout = () => {
+        axios.get(`${myurl}/api/logout`)
+          .then(res => {
+            console.log(res.data)
+            if (res.data.Status === "Success") {
+            window.location.reload()
+            }
+          })
+          .catch(err => console.log(err))
+      }
+    
     return (
         <>
             <div className='top'>
@@ -41,7 +55,7 @@ const Header = () => {
                                     <ul className="dropdown-menu dropdown-menu-end">
                                         <li><NavLink className="dropdown-item" to={'/dashboard'}>Jhon Doe</NavLink></li>
                                         <li><NavLink className="dropdown-item">Settings</NavLink></li>
-                                        <li><NavLink className="dropdown-item">Sign Out</NavLink></li>
+                                        <li><NavLink className="dropdown-item" onClick={handleLogout}>Sign Out</NavLink></li>
                                     </ul>
                                 </div>
                             </div>
