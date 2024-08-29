@@ -14,20 +14,38 @@ const Projects = () => {
     const [inputValue, setInputValue] = useState('');
     const [filteredSuggestions, setFilteredSuggestions] = useState([]);
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
-    const suggestions = ["Ben", "Gwen", "Grandpa", "Omnitrix"]; 
+    const options = ["Ben", "Gwen", "Grandpa", "Omnitrix"];
 
     const handleInputChange = (e) => {
         const value = e.target.value;
         setInputValue(value);
         if (value) {
-            const filtered = suggestions.filter(suggestion =>
+            const filtered = options.filter(suggestion =>
                 suggestion.toLowerCase().includes(value.toLowerCase())
             );
             setFilteredSuggestions(filtered);
-            setActiveSuggestionIndex(0); 
+            setActiveSuggestionIndex(0);
         } else {
             setFilteredSuggestions([]);
         }
+    };
+
+    const handleSelectChange = (e) => {
+        const value = e.target.value;
+        if (value && !assignees.includes(value)) {
+            setAssignees([...assignees, value]);
+        }
+    };
+
+    const removePill = (value) => {
+        setAssignees(assignees.filter(assignee => assignee !== value));
+    };
+
+    const addPill = (value) => {
+        if (!assignees.includes(value)) {
+            setAssignees([...assignees, value]);
+        }
+        setFilteredSuggestions([]);
     };
 
     const handleKeyPress = (e) => {
@@ -51,17 +69,6 @@ const Projects = () => {
                 prevIndex < filteredSuggestions.length - 1 ? prevIndex + 1 : 0
             );
         }
-    };
-
-    const addPill = (value) => {
-        if (!assignees.includes(value)) {
-            setAssignees([...assignees, value]);
-        }
-        setFilteredSuggestions([]);
-    };
-
-    const removePill = (value) => {
-        setAssignees(assignees.filter(assignee => assignee !== value));
     };
 
     return (
@@ -222,26 +229,22 @@ const Projects = () => {
 
                                                 <div className="assignee_section mt-2">
                                                     <h5 className="text-start">Assignee</h5>
-                                                    <div className="position-relative">
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="pillInput"
-                                                            placeholder="Enter Assignee"
-                                                            value={inputValue}
-                                                            onChange={handleInputChange}
-                                                            onKeyPress={handleKeyPress}
-                                                        />
-                                                        {filteredSuggestions.length > 0 && (
-                                                            <ul className="dropdown-menu show">
-                                                                {filteredSuggestions.map((suggestion, index) => (
-                                                                    <li key={index} onClick={() => addPill(suggestion)} className="dropdown-item">
-                                                                        {suggestion}
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        )}
-                                                    </div>
+                                                    <select
+                                                        className="form-select"
+                                                        id="assigneeDropdown"
+                                                        aria-label="Assignee"
+                                                        onChange={handleSelectChange}
+                                                        value="" 
+                                                    >
+                                                        <option value="">Select Assignee</option>
+                                                        {options
+                                                            .filter(option => !assignees.includes(option)) 
+                                                            .map((option, index) => (
+                                                                <option key={index} value={option}>
+                                                                    {option}
+                                                                </option>
+                                                            ))}
+                                                    </select>
                                                     <div className="pill-container mt-2" id="pillContainer">
                                                         {assignees.map((assignee, index) => (
                                                             <div className="pill" key={index}>
