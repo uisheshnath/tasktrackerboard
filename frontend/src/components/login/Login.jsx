@@ -21,7 +21,7 @@ const Login = () => {
                 .then((res) => {
                     if (res.data.Status === "Success") {
                         setShowToast(true);
-                        setTimeout(() => { navigate('/') }, 1000);
+                        setTimeout(() => { navigate('/dashboard') }, 1000);
 
                     } else {
                         console.log(res.data.Error);
