@@ -158,7 +158,7 @@ const Signup = () => {
                                 <div className="card rounded-5">
                                     <div className="card-body p-12">
                                         <h2 className="card-title">Sign Up</h2>
-                                        <p className="card-text">Already have an account? <NavLink to={'/login'}>Sign In</NavLink></p>
+                                        <p className="card-text">Already have an account? <NavLink to={'/login'}>Sign In</NavLink> <NavLink to={'/404'}>404</NavLink> </p>
                                         <form onSubmit={handleSubmit}>
                                             <div className="row g-md-3">
                                                 <div className="col-md-6">
