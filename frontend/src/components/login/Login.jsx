@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Cookies from "js-cookie"
 let myurls = process.env.REACT_APP_COMMONURL
-// import Cookies from "js-cookie"
+
+
 
 const Login = () => {
     const navigate = useNavigate();
@@ -10,26 +12,48 @@ const Login = () => {
     const [emp_password, setPassword] = useState()
     const [terms, setTerms] = useState(null)
     const [showToast, setShowToast] = useState(false);
-
+    const [logauth, setLogauth] = useState()
     axios.defaults.withCredentials = true;
-
+    //    console.log(logauth)
     // console.log(terms, myurls)
-
     const handleSubmit = (e) => {
-        e.preventDefault() 
-            axios.post(`${myurls}/api/login`, { emp_email, emp_password })
-                .then((res) => {
-                    if (res.data.Status === "Success") {
-                        setShowToast(true);
-                        setTimeout(() => { navigate('/dashboard') }, 1000);
+        e.preventDefault()
+        axios.post(`${myurls}/api/login`, { emp_email, emp_password })
+            .then((res) => {
+                if (res.data.Status === "Success") {
+                    setShowToast(true);
+                    let encriptData = window.btoa(res.data.token)
+                    localStorage.setItem("auth_verify_token", encriptData)
 
-                    } else {
-                        console.log(res.data.Error);
-                    }
-                })
-                .catch((err) => { console.log(err) })
-
+                    setTimeout(() => {
+                        navigate('/dashboard')
+                    }, 1000);
+                } else {
+                    console.log(res.data.Error);
+                }
+            })
+            .catch((err) => { console.log(err) })
     }
+
+    useEffect(() => {
+        try {
+            let mytoken = Cookies.get('token');
+            let gettoken = localStorage.getItem("auth_verify_token")
+            let encipt_token = window.atob(gettoken)
+            if (mytoken === encipt_token) {
+                navigate('/dashboard')
+            }
+            else {
+                console.log("user token is mismatch")
+            }
+        } catch (err) {
+            console.log(err)
+
+        }
+
+    }, [])
+
+
 
 
     return (

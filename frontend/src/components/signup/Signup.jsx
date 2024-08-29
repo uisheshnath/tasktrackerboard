@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect } from 'react'
 import axios from "axios"
 import { NavLink, useNavigate } from 'react-router-dom'
+import Cookies from "js-cookie"
 let myurl = process.env.REACT_APP_COMMONURL
+
 const Signup = () => {
 
     // Initialize state for form fields
@@ -143,6 +145,24 @@ const Signup = () => {
             }
 
         };
+
+        useEffect(() => {
+            try {
+                let mytoken = Cookies.get('token');
+                let gettoken = localStorage.getItem("auth_verify_token")
+                let encipt_token = window.atob(gettoken)
+                if (mytoken === encipt_token) {
+                    navigate('/dashboard')
+                }
+                else {
+                    console.log("user token is mismatch")
+                }
+            } catch (err) {
+                console.log(err)
+    
+            }
+    
+        }, [])
 
         return (
             <>
