@@ -189,6 +189,33 @@ const Signup = () => {
         }
     }, [showToast]);
 
+    const notifyWarning = (e) => {
+        e.preventDefault(); // Prevent the default link behavior
+
+        toast.warn('This is a warning!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: { 
+                backgroundColor: 'orange', 
+                color: 'black'
+            },
+            progressStyle: { 
+                backgroundColor: 'yellow' 
+            }
+        });
+
+        // Redirect to the 404 page after 3 seconds
+        setTimeout(() => {
+            navigate('/404');
+        }, 3000);
+    };
+
+
     return (
         <>
             <div className="container-fluid bg-primary">
@@ -203,8 +230,7 @@ const Signup = () => {
                             <div className="card rounded-5">
                                 <div className="card-body p-12">
                                     <h2 className="card-title">Sign Up</h2>
-                                    <p className="card-text">Already have an account? <NavLink to={'/login'}>Sign In</NavLink> <NavLink to={'/404'}>404</NavLink> </p>
-                                    <form onSubmit={handleSubmit}>
+                                    <p className="card-text">Already have an account? <NavLink to={'/login'}>Sign In</NavLink> <a href="/" onClick={notifyWarning}>404</a> </p>                                    <form onSubmit={handleSubmit}>
                                         <div className="row g-md-3">
                                             <div className="col-md-6">
                                                 <div className="form-floating mb-3">
@@ -392,6 +418,7 @@ const Signup = () => {
                 </div>
             </div>
 
+            {/* <button onClick={notifyWarning}>Show Warning Toast</button> */}
             <ToastContainer />
 
             {/* <div className={`toast-container top-0 end-0 p-3`} style={{ position: 'fixed', zIndex: 1050 }}>
