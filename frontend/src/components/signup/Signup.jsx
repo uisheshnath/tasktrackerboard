@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 let myurl = process.env.REACT_APP_COMMONURL
+
 const Signup = () => {
 
     // Initialize state for form fields
@@ -116,12 +117,6 @@ const Signup = () => {
         setErrors({});
         console.log('Form Data Submitted:', formData);
 
-        // setTimeout(() => setShowToast(false), 3000);
-
-
-
-
-
         if (formData.password !== formData.confirmPassword) {
             console.log("Password and Confirm Password should")
         }
@@ -134,7 +129,7 @@ const Signup = () => {
                     if (response.data.Status === 'Success') {
                         toast.success('Profile created successfully!', {
                             position: "top-right",
-                            autoClose: 3000,
+                            autoClose: 1500,
                             hideProgressBar: false,
                             closeOnClick: true,
                             pauseOnHover: true,
@@ -145,11 +140,11 @@ const Signup = () => {
                         });
                         setTimeout(() => {
                             navigate("/login");
-                        }, 3000);
+                        }, 1500);
                     } else {
                         toast.error(response.data.Error, {
                             position: "top-right",
-                            autoClose: 3000,
+                            autoClose: 1500,
                             hideProgressBar: false,
                             closeOnClick: true,
                             pauseOnHover: true,
@@ -190,7 +185,7 @@ const Signup = () => {
     }, [showToast]);
 
     const notifyWarning = (e) => {
-        e.preventDefault(); // Prevent the default link behavior
+        e.preventDefault();  
 
         toast.warn('This is a warning!', {
             position: "top-right",
@@ -200,12 +195,12 @@ const Signup = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            style: { 
-                backgroundColor: 'orange', 
+            style: {
+                backgroundColor: 'orange',
                 color: 'black'
             },
-            progressStyle: { 
-                backgroundColor: 'yellow' 
+            progressStyle: {
+                backgroundColor: 'yellow'
             }
         });
 

@@ -1,17 +1,18 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink , useNavigate } from 'react-router-dom'
 import './header.css'
 import axios from 'axios'
 let myurl = process.env.REACT_APP_COMMONURL
 
 
 const Header = () => {
+    let navigate = useNavigate()
     const handleLogout = () => {
         axios.get(`${myurl}/api/logout`)
           .then(res => {
             console.log(res.data)
             if (res.data.Status === "Success") {
-            window.location.reload()
+                navigate('/login')
             }
           })
           .catch(err => console.log(err))
