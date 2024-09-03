@@ -1,6 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'   
 let myurl = process.env.REACT_APP_COMMONURL
 
 function Home() {
@@ -19,7 +18,7 @@ function Home() {
                     setAuth(false)
                     setMessage(response.data.Error)
                 }
-            }) 
+            })
             .catch((error) => {
                 setMessage(error.message)
             })
@@ -69,12 +68,12 @@ function Home() {
         <>
 
             {
-                auth ?
-                    <>
+                auth ? 
+                    < >
                         <br />
                         {renderDayContent()}
                         <p>You Are Authorised <br /> </p>
-                        <p>{JSON.stringify(message)}</p>   
+                        <p>{JSON.stringify(message)}</p> 
                         <button className='logoutbtn' onClick={handleLogout}>Logout</button>
                     </>
                     :

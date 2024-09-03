@@ -10,33 +10,26 @@ import Page404 from './components/404/Page404';
 
 // user
 import UserProvider from "./usermodel/UserProvider"
-import UserProfile from "./usermodel/UserProfile"
+import UserProfile from "./usermodel/UserProfile" 
 
 function App() {
 
   return (
-    <>
+    <> 
       <UserProvider>
-        {/* <h1>React Context Example</h1>
-        <UserProfile /> */}
-    
-
+        
       <Router>
         <Routes>
           <Route path='/dashboard' element={<Main/>} />
           <Route path='/' element={<Home/>} />
           <Route path='/login' element={<Login/>} />
           <Route path='/signup' element={<Signup/>} />
+          <Route path='/profile' element={<UserProfile />} />
           <Route path='/heirarchy' element={<Heirarchy/>} />
           <Route path='/forgetpassword' element={<ForgotPassword/>} />
-          <Route path='/Page404' element={<Page404/>} />
+        
 
-          <Route path='/dashboard' element={<Main />} />
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/heirarchy' element={<Heirarchy />} />
-          <Route path='/forgetpassword' element={<ForgotPassword />} />
+          <Route path='*' element={<Page404 />} />
         </Routes>
       </Router>
       </UserProvider>
