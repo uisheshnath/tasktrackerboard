@@ -5,58 +5,58 @@ const Dnd = () => {
     return (
         <div className="board">
             <div className="column" id="todo" onDrop={dropIt} onDragOver={allowDrop}>
-            <div class="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
-                <h3 class="mb-0 todo_section fs-6">To Do</h3>
-                <a data-bs-toggle="modal" data-bs-target="#addTodo" aria-current="page" class="progress-area-add-section active" href="#">
-                    <i class="fa fa-plus-circle fs-1"></i>
+            <div className="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
+                <h3 className="mb-0 todo_section fs-6">To Do</h3>
+                <a data-bs-toggle="modal" data-bs-target="#addTodo" aria-current="page" className="progress-area-add-section active" href="#">
+                    <i className="fa fa-plus-circle fs-1"></i>
                 </a>
             </div>
-            <div class="modal fade" id="addTodo" tabindex="-1" aria-labelledby="addTodoLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addTodoLabel">Add New Task</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal fade" id="addTodo" tabindex="-1" aria-labelledby="addTodoLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="addTodoLabel">Add New Task</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <form>
-                                <div class="mb-3">
-                                    <label for="employeeName" class="form-label">Employee Name</label>
-                                    <input type="text" class="form-control" id="employeeName" placeholder="Enter Employee Name"></input>
+                                <div className="mb-3">
+                                    <label for="employeeName" className="form-label">Employee Name</label>
+                                    <input type="text" className="form-control" id="employeeName" placeholder="Enter Employee Name"></input>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="projectName" class="form-label">Project Name</label>
-                                    <input type="text" class="form-control" id="projectName" placeholder="Enter Project Name"></input>
+                                <div className="mb-3">
+                                    <label for="projectName" className="form-label">Project Name</label>
+                                    <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name"></input>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="taskTitle" class="form-label">Task Title</label>
-                                    <input type="text" class="form-control" id="taskTitle" placeholder="Enter task title"></input>
+                                <div className="mb-3">
+                                    <label for="taskTitle" className="form-label">Task Title</label>
+                                    <input type="text" className="form-control" id="taskTitle" placeholder="Enter task title"></input>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="taskDescription" class="form-label">Task Description</label>
-                                    <textarea class="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
+                                <div className="mb-3">
+                                    <label for="taskDescription" className="form-label">Task Description</label>
+                                    <textarea className="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="taskPriority" class="form-label">Priority</label>
-                                    <select class="form-select" id="taskPriority">
+                                <div className="mb-3">
+                                    <label for="taskPriority" className="form-label">Priority</label>
+                                    <select className="form-select" id="taskPriority">
                                         <option value="low">Low</option>
                                         <option value="medium">Medium</option>
                                         <option value="high">High</option>
                                     </select>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="startDate" class="form-label">Start Date</label>
-                                    <input type="date" class="form-control" id="startDate"></input>
+                                <div className="mb-3">
+                                    <label for="startDate" className="form-label">Start Date</label>
+                                    <input type="date" className="form-control" id="startDate"></input>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="endDate" class="form-label">End Date</label>
-                                    <input type="date" class="form-control" id="endDate"></input>
+                                <div className="mb-3">
+                                    <label for="endDate" className="form-label">End Date</label>
+                                    <input type="date" className="form-control" id="endDate"></input>
                                 </div>
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Submit</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-primary">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -165,54 +165,54 @@ const Dnd = () => {
                 </div>
             </div>
             <div className="column" id="in-progress" onDrop={dropIt} onDragOver={allowDrop}>
-                <div class="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
-                    <h3 class="mb-0 todo_section fs-6">In Progress</h3>
-                    <a data-bs-toggle="modal" data-bs-target="#addInProgress" aria-current="page" class="progress-area-add-section active" href="#">
-                        <i class="fa fa-plus-circle fs-1"></i>
+                <div className="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
+                    <h3 className="mb-0 todo_section fs-6">In Progress</h3>
+                    <a data-bs-toggle="modal" data-bs-target="#addInProgress" aria-current="page" className="progress-area-add-section active" href="#">
+                        <i className="fa fa-plus-circle fs-1"></i>
                     </a>
                 </div>
-                <div class="modal fade" id="addInProgress" tabindex="-1" aria-labelledby="addInProgressLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addTodoLabel">Add New Task</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div className="modal fade" id="addInProgress" tabindex="-1" aria-labelledby="addInProgressLabel" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="addTodoLabel">Add New Task</h5>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div className="modal-body">
                                 <form>
-                                    <div class="mb-3">
-                                        <label for="projectName" class="form-label">Project Name</label>
-                                        <input type="text" class="form-control" id="projectName" placeholder="Enter Project Name"></input>
+                                    <div className="mb-3">
+                                        <label for="projectName" className="form-label">Project Name</label>
+                                        <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name"></input>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="taskTitle" class="form-label">Task Title</label>
-                                        <input type="text" class="form-control" id="taskTitle" placeholder="Enter task title"></input>
+                                    <div className="mb-3">
+                                        <label for="taskTitle" className="form-label">Task Title</label>
+                                        <input type="text" className="form-control" id="taskTitle" placeholder="Enter task title"></input>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="taskDescription" class="form-label">Task Description</label>
-                                        <textarea class="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
+                                    <div className="mb-3">
+                                        <label for="taskDescription" className="form-label">Task Description</label>
+                                        <textarea className="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="taskPriority" class="form-label">Priority</label>
-                                        <select class="form-select" id="taskPriority">
+                                    <div className="mb-3">
+                                        <label for="taskPriority" className="form-label">Priority</label>
+                                        <select className="form-select" id="taskPriority">
                                             <option value="low">Low</option>
                                             <option value="medium">Medium</option>
                                             <option value="high">High</option>
                                         </select>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="startDate" class="form-label">Start Date</label>
-                                        <input type="date" class="form-control" id="startDate"></input>
+                                    <div className="mb-3">
+                                        <label for="startDate" className="form-label">Start Date</label>
+                                        <input type="date" className="form-control" id="startDate"></input>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="endDate" class="form-label">End Date</label>
-                                        <input type="date" class="form-control" id="endDate"></input>
+                                    <div className="mb-3">
+                                        <label for="endDate" className="form-label">End Date</label>
+                                        <input type="date" className="form-control" id="endDate"></input>
                                     </div>
                                 </form>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary">Submit</button>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" className="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -270,54 +270,54 @@ const Dnd = () => {
                 </div>
             </div>
             <div className="column" id="done" onDrop={dropIt} onDragOver={allowDrop}>
-            <div class="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
-                    <h3 class="mb-0 todo_section fs-6">Done</h3>
-                    <a data-bs-toggle="modal" data-bs-target="#doneState" aria-current="page" class="progress-area-add-section active" href="#">
-                        <i class="fa fa-plus-circle fs-1"></i>
+            <div className="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
+                    <h3 className="mb-0 todo_section fs-6">Done</h3>
+                    <a data-bs-toggle="modal" data-bs-target="#doneState" aria-current="page" className="progress-area-add-section active" href="#">
+                        <i className="fa fa-plus-circle fs-1"></i>
                     </a>
                 </div>
-                <div class="modal fade" id="doneState" tabindex="-1" aria-labelledby="doneStateLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addTodoLabel">Add New Task</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div className="modal fade" id="doneState" tabindex="-1" aria-labelledby="doneStateLabel" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="addTodoLabel">Add New Task</h5>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div className="modal-body">
                                 <form>
-                                    <div class="mb-3">
-                                        <label for="projectName" class="form-label">Project Name</label>
-                                        <input type="text" class="form-control" id="projectName" placeholder="Enter Project Name"></input>
+                                    <div className="mb-3">
+                                        <label for="projectName" className="form-label">Project Name</label>
+                                        <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name"></input>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="taskTitle" class="form-label">Task Title</label>
-                                        <input type="text" class="form-control" id="taskTitle" placeholder="Enter task title"></input>
+                                    <div className="mb-3">
+                                        <label for="taskTitle" className="form-label">Task Title</label>
+                                        <input type="text" className="form-control" id="taskTitle" placeholder="Enter task title"></input>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="taskDescription" class="form-label">Task Description</label>
-                                        <textarea class="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
+                                    <div className="mb-3">
+                                        <label for="taskDescription" className="form-label">Task Description</label>
+                                        <textarea className="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="taskPriority" class="form-label">Priority</label>
-                                        <select class="form-select" id="taskPriority">
+                                    <div className="mb-3">
+                                        <label for="taskPriority" className="form-label">Priority</label>
+                                        <select className="form-select" id="taskPriority">
                                             <option value="low">Low</option>
                                             <option value="medium">Medium</option>
                                             <option value="high">High</option>
                                         </select>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="startDate" class="form-label">Start Date</label>
-                                        <input type="date" class="form-control" id="startDate"></input>
+                                    <div className="mb-3">
+                                        <label for="startDate" className="form-label">Start Date</label>
+                                        <input type="date" className="form-control" id="startDate"></input>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="endDate" class="form-label">End Date</label>
-                                        <input type="date" class="form-control" id="endDate"></input>
+                                    <div className="mb-3">
+                                        <label for="endDate" className="form-label">End Date</label>
+                                        <input type="date" className="form-control" id="endDate"></input>
                                     </div>
                                 </form>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary">Submit</button>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" className="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </div>

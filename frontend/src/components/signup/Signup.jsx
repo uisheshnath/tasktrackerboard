@@ -121,8 +121,6 @@ const Signup = () => {
             console.log("Password and Confirm Password should")
         }
         else {
-            console.log('Form Data Submitted:', formData);
-
             axios.post(`${myurl}/api/register`, { emp_name, emp_id, emp_email, emp_password, reporting_to, reporting_to_id, designation, department })
                 .then((response) => {
                     console.log(response.data.Error);
@@ -184,31 +182,27 @@ const Signup = () => {
         }
     }, [showToast]);
 
-    const notifyWarning = (e) => {
-        e.preventDefault();  
+    // const notifyWarning = (e) => {
+    //     e.preventDefault();
 
-        toast.warn('This is a warning!', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: {
-                backgroundColor: 'orange',
-                color: 'black'
-            },
-            progressStyle: {
-                backgroundColor: 'yellow'
-            }
-        });
+    //     toast.warn('This is a warning!', {
+    //         position: "top-right",
+    //         autoClose: 1500,
+    //         hideProgressBar: false,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //         style: {
+    //             backgroundColor: 'orange',
+    //             color: 'black'
+    //         },
+    //         progressStyle: {
+    //             backgroundColor: 'yellow'
+    //         }
+    //     });
 
-        // Redirect to the 404 page after 3 seconds
-        setTimeout(() => {
-            navigate('/404');
-        }, 3000);
-    };
+    // };
 
 
     return (
@@ -225,7 +219,10 @@ const Signup = () => {
                             <div className="card rounded-5">
                                 <div className="card-body p-12">
                                     <h2 className="card-title">Sign Up</h2>
-                                    <p className="card-text">Already have an account? <NavLink to={'/login'}>Sign In</NavLink> <a href="/" onClick={notifyWarning}>404</a> </p>                                    <form onSubmit={handleSubmit}>
+                                    <p className="card-text">Already have an account? <NavLink to={'/login'}>Sign In</NavLink>
+                                        {/* <a href="/" onClick={notifyWarning}>404</a> */}
+                                    </p>
+                                    <form onSubmit={handleSubmit}>
                                         <div className="row g-md-3">
                                             <div className="col-md-6">
                                                 <div className="form-floating mb-3">

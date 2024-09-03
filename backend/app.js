@@ -16,6 +16,8 @@ app.use(cors({
 ))
 app.use(cookieParser())
 
+app.use(userRout)
+
 
 // for register
 const verifyUser = (req, res, next) => {
@@ -39,10 +41,6 @@ const verifyUser = (req, res, next) => {
 app.get('/api', verifyUser, (req, res) => {
   return res.json({ Status: "Success", payload: req.payload })
 })
-
-
-app.use(userRout)
-
 
  
 app.listen(port, (req, res) => {

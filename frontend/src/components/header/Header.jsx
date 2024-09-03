@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink , useNavigate } from 'react-router-dom'
+import UserContext from '../../usermodel/UserContext'
 import './header.css'
 import axios from 'axios'
 let myurl = process.env.REACT_APP_COMMONURL
@@ -17,6 +18,8 @@ const Header = () => {
           })
           .catch(err => console.log(err))
       }
+      const { user } = useContext(UserContext);
+    //   console.log(user)
     
     return (
         <>
@@ -54,8 +57,8 @@ const Header = () => {
                                 <div className="dropdown">
                                     <img src={process.env.PUBLIC_URL + 'assets/img/dummy/displaypic.jpeg'} alt="Jhon Doe" className='dropdown-toggle header-profile-pic rounded-5' data-bs-toggle="dropdown" aria-expanded="false" />
                                     <ul className="dropdown-menu dropdown-menu-end">
-                                        <li><NavLink className="dropdown-item" to={'/dashboard'}>Jhon Doe</NavLink></li>
-                                        <li><NavLink className="dropdown-item">Settings</NavLink></li>
+                                        <li><NavLink className="dropdown-item" to={'/dashboard'}>{user?.emp_name}</NavLink></li>
+                                        <li><NavLink className="dropdown-item" to={'/profile'}>Settings</NavLink></li>
                                         <li><NavLink className="dropdown-item" onClick={handleLogout}>Sign Out</NavLink></li>
                                     </ul>
                                 </div>
