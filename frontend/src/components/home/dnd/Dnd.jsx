@@ -11,7 +11,7 @@ const Dnd = () => {
                     <i className="fa fa-plus-circle fs-1"></i>
                 </a>
             </div>
-            <div className="modal fade" id="addTodo" tabindex="-1" aria-labelledby="addTodoLabel" aria-hidden="true">
+            <div className="modal fade" id="addTodo" tabIndex="-1" aria-labelledby="addTodoLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -21,23 +21,23 @@ const Dnd = () => {
                         <div className="modal-body">
                             <form>
                                 <div className="mb-3">
-                                    <label for="employeeName" className="form-label">Employee Name</label>
+                                    <label htmlFor="employeeName" className="form-label">Employee Name</label>
                                     <input type="text" className="form-control" id="employeeName" placeholder="Enter Employee Name"></input>
                                 </div>
                                 <div className="mb-3">
-                                    <label for="projectName" className="form-label">Project Name</label>
+                                    <label htmlFor="projectName" className="form-label">Project Name</label>
                                     <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name"></input>
                                 </div>
                                 <div className="mb-3">
-                                    <label for="taskTitle" className="form-label">Task Title</label>
+                                    <label htmlFor="taskTitle" className="form-label">Task Title</label>
                                     <input type="text" className="form-control" id="taskTitle" placeholder="Enter task title"></input>
                                 </div>
                                 <div className="mb-3">
-                                    <label for="taskDescription" className="form-label">Task Description</label>
+                                    <label htmlFor="taskDescription" className="form-label">Task Description</label>
                                     <textarea className="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
                                 </div>
                                 <div className="mb-3">
-                                    <label for="taskPriority" className="form-label">Priority</label>
+                                    <label htmlFor="taskPriority" className="form-label">Priority</label>
                                     <select className="form-select" id="taskPriority">
                                         <option value="low">Low</option>
                                         <option value="medium">Medium</option>
@@ -45,11 +45,11 @@ const Dnd = () => {
                                     </select>
                                 </div>
                                 <div className="mb-3">
-                                    <label for="startDate" className="form-label">Start Date</label>
+                                    <label htmlFor="startDate" className="form-label">Start Date</label>
                                     <input type="date" className="form-control" id="startDate"></input>
                                 </div>
                                 <div className="mb-3">
-                                    <label for="endDate" className="form-label">End Date</label>
+                                    <label htmlFor="endDate" className="form-label">End Date</label>
                                     <input type="date" className="form-control" id="endDate"></input>
                                 </div>
                             </form>
@@ -171,7 +171,7 @@ const Dnd = () => {
                         <i className="fa fa-plus-circle fs-1"></i>
                     </a>
                 </div>
-                <div className="modal fade" id="addInProgress" tabindex="-1" aria-labelledby="addInProgressLabel" aria-hidden="true">
+                <div className="modal fade" id="addInProgress" tabIndex="-1" aria-labelledby="addInProgressLabel" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -181,19 +181,19 @@ const Dnd = () => {
                             <div className="modal-body">
                                 <form>
                                     <div className="mb-3">
-                                        <label for="projectName" className="form-label">Project Name</label>
+                                        <label htmlFor="projectName" className="form-label">Project Name</label>
                                         <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name"></input>
                                     </div>
                                     <div className="mb-3">
-                                        <label for="taskTitle" className="form-label">Task Title</label>
+                                        <label htmlFor="taskTitle" className="form-label">Task Title</label>
                                         <input type="text" className="form-control" id="taskTitle" placeholder="Enter task title"></input>
                                     </div>
                                     <div className="mb-3">
-                                        <label for="taskDescription" className="form-label">Task Description</label>
+                                        <label htmlFor="taskDescription" className="form-label">Task Description</label>
                                         <textarea className="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
                                     </div>
                                     <div className="mb-3">
-                                        <label for="taskPriority" className="form-label">Priority</label>
+                                        <label htmlFor="taskPriority" className="form-label">Priority</label>
                                         <select className="form-select" id="taskPriority">
                                             <option value="low">Low</option>
                                             <option value="medium">Medium</option>
@@ -201,11 +201,11 @@ const Dnd = () => {
                                         </select>
                                     </div>
                                     <div className="mb-3">
-                                        <label for="startDate" className="form-label">Start Date</label>
+                                        <label htmlFor="startDate" className="form-label">Start Date</label>
                                         <input type="date" className="form-control" id="startDate"></input>
                                     </div>
                                     <div className="mb-3">
-                                        <label for="endDate" className="form-label">End Date</label>
+                                        <label htmlFor="endDate" className="form-label">End Date</label>
                                         <input type="date" className="form-control" id="endDate"></input>
                                     </div>
                                 </form>
@@ -276,7 +276,7 @@ const Dnd = () => {
                         <i className="fa fa-plus-circle fs-1"></i>
                     </a>
                 </div>
-                <div className="modal fade" id="doneState" tabindex="-1" aria-labelledby="doneStateLabel" aria-hidden="true">
+                <div className="modal fade" id="doneState" tabIndex="-1" aria-labelledby="doneStateLabel" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -286,19 +286,19 @@ const Dnd = () => {
                             <div className="modal-body">
                                 <form>
                                     <div className="mb-3">
-                                        <label for="projectName" className="form-label">Project Name</label>
+                                        <label htmlFor="projectName" className="form-label">Project Name</label>
                                         <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name"></input>
                                     </div>
                                     <div className="mb-3">
-                                        <label for="taskTitle" className="form-label">Task Title</label>
+                                        <label htmlFor="taskTitle" className="form-label">Task Title</label>
                                         <input type="text" className="form-control" id="taskTitle" placeholder="Enter task title"></input>
                                     </div>
                                     <div className="mb-3">
-                                        <label for="taskDescription" className="form-label">Task Description</label>
+                                        <label htmlFor="taskDescription" className="form-label">Task Description</label>
                                         <textarea className="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
                                     </div>
                                     <div className="mb-3">
-                                        <label for="taskPriority" className="form-label">Priority</label>
+                                        <label htmlFor="taskPriority" className="form-label">Priority</label>
                                         <select className="form-select" id="taskPriority">
                                             <option value="low">Low</option>
                                             <option value="medium">Medium</option>
@@ -306,11 +306,11 @@ const Dnd = () => {
                                         </select>
                                     </div>
                                     <div className="mb-3">
-                                        <label for="startDate" className="form-label">Start Date</label>
+                                        <label htmlFor="startDate" className="form-label">Start Date</label>
                                         <input type="date" className="form-control" id="startDate"></input>
                                     </div>
                                     <div className="mb-3">
-                                        <label for="endDate" className="form-label">End Date</label>
+                                        <label htmlFor="endDate" className="form-label">End Date</label>
                                         <input type="date" className="form-control" id="endDate"></input>
                                     </div>
                                 </form>
