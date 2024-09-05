@@ -1,17 +1,14 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 
-const ProjectDetails = () => {
+const ProjectDetails = (props) => {
     return (
         <>
-            <NavLink className='project-card-info-icon' data-bs-toggle="modal" data-bs-target="#projectDetails">
-                <i className="fa fa-chevron-right fs-6"></i>
-            </NavLink>
+           
             <div className="modal fade" id="projectDetails" data-bs-keyboard="false" tabIndex="-1" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title">Project Details</h5>
+                            <h5 className="modal-title">Project Details  </h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body pb-7">
@@ -31,23 +28,23 @@ const ProjectDetails = () => {
                             </ul>
                             <div className="tab-content pt-5" id="tab-content">
                                 <div className="tab-pane about_project active" id="project-detailspanel-0" role="tabpanel" aria-labelledby="project-details-0">
-                                    <span className="fw-bold">Project Name -</span>Zlaata
+                                    <span className="fw-bold">Project Name -</span>{props.project}
                                     <h6 className="mt-3 fw-bold">Introduction</h6>
-                                    <p className="mb-0">Zlaata is a fashion brand that offers a wide</p>
+                                    <p className="mb-0">{props.introduction}</p>
                                     <h6 className="mt-3 fw-bold">Business Type</h6>
-                                    <p className="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                                        Mollitia inventore neque laudantium autem repellendus harum ea sint reprehenderit quasi qui?
-                                    </p>
+                                    <p>{props.businesstype}</p>
+                                    <p className="fw-bold">Project Manager - <span className='fw-normal'>{props.manager}</span></p>
+                                    <p className="fw-bold">Project Coordinator - <span className='fw-normal'>{props.coordinator}</span></p>
                                     <h6 className="mt-3 fw-bold">Website Link</h6>
-                                    <a className="mb-0" href='https://zlaata.com'>https://zlaata.com</a>
+                                    <a className="mb-0" href={props.weblink}>{props.weblink}</a>
                                 </div>
                                 <div className="tab-pane project_releases" id="project-detailspanel-1" role="tabpanel" aria-labelledby="project-details-1">
                                     <h6 className="mt-3 fw-bold">Upcoming</h6>
-                                    <p className="mb-0 text-info upcoming_release_date">10th August 2024</p>
+                                    <p className="mb-0 text-info upcoming_release_date">{props.upcoming?.slice(0,10)}</p>
                                     <h6 className="mt-3 fw-bold">Current</h6>
-                                    <p className="mb-0 text-success current_release_date">25th July 2024</p>
+                                    <p className="mb-0 text-success current_release_date">{props.current?.slice(0,10)}</p>
                                     <h6 className="mt-3 fw-bold">Closed</h6>
-                                    <p className="mb-0 text-danger closed_release_date">1st July 2024</p>
+                                    <p className="mb-0 text-danger closed_release_date">{props.closed?.slice(0,10)}</p>
                                 </div>
                                 <div className="tab-pane project_assignees" id="project-detailspanel-2" role="tabpanel" aria-labelledby="project-details-2">
                                 <div className="row">
@@ -198,28 +195,28 @@ const ProjectDetails = () => {
                                             <div className="accordion-body pt-0">
                                                 <div className="mb-2">
                                                     <span className="link-name fs-6 fw-bold">Dev:</span>
-                                                    <a href="https://devzl.testingserver8.com/" className="btn btn-link">https://devzl.testingserver8.com</a>
+                                                    <a href={props.dev} className="btn btn-link">{props.dev}</a>
                                                 </div>
                                                 <div>
                                                     <span className="link-name fs-6 fw-bold">Dev-Admin:</span>
-                                                    <a href="https://adzldev.testingserver8.com/admin/order/" className="btn btn-link">https://adzldev.testingserver8.com/admin/</a>
+                                                    <a href={props.devadmin} className="btn btn-link">{props.devadmin}</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="accordion-item">
                                         <h2 className="accordion-header" id="headingTwo">
-                                            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">V7 - Server</button>
+                                            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Testing Server</button>
                                         </h2>
                                         <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                             <div className="accordion-body pt-0">
                                                 <div className="mb-2">
-                                                    <span className="link-name fs-6 fw-bold">V7:</span>
-                                                    <a href="https://zltav7.testingserver8.com/" className="btn btn-link">https://zltav7.testingserver8.com/</a>
+                                                    <span className="link-name fs-6 fw-bold">Testing:</span>
+                                                    <a href={props.v7} className="btn btn-link">{props.v7}</a>
                                                 </div>
                                                 <div>
-                                                    <span className="link-name fs-6 fw-bold">V7-Admin:</span>
-                                                    <a href="https://adminzltav7.testingserver8.com/admin/login/" className="btn btn-link">https://adminzltav7.testingserver8.com/admin/</a>
+                                                    <span className="link-name fs-6 fw-bold">Testing Admin:</span>
+                                                    <a href={props.v7admin} className="btn btn-link">{props.v7admin}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -232,11 +229,11 @@ const ProjectDetails = () => {
                                             <div className="accordion-body pt-0">
                                                 <div className="mb-2">
                                                     <span className="link-name fs-6 fw-bold">Stage:</span>
-                                                    <a href="https://testing.zlaata.com/" className="btn btn-link">https://testing.zlaata.com/</a>
+                                                    <a href={props.Stage} className="btn btn-link">{props.Stage}</a>
                                                 </div>
                                                 <div>
                                                     <span className="link-name fs-6 fw-bold">Stage-Admin:</span>
-                                                    <a href="" className="btn btn-link"></a>
+                                                    <a href={props.Stageadmin} className="btn btn-link">{props.Stageadmin}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -249,11 +246,11 @@ const ProjectDetails = () => {
                                             <div className="accordion-body pt-0">
                                                 <div className="mb-2">
                                                     <span className="link-name fs-6 fw-bold">Prod:</span>
-                                                    <a href="https://www.zlaata.com/" className="btn btn-link">https://www.zlaata.com/</a>
+                                                    <a href={props.Prod} className="btn btn-link">{props.Prod}</a>
                                                 </div>
                                                 <div>
                                                     <span className="link-name fs-6 fw-bold">Prod-Admin:</span>
-                                                    <a href="#" className="btn btn-link"> </a>
+                                                    <a href={props.prodadmin} className="btn btn-link">{props.prodadmin} </a>
                                                 </div>
                                             </div>
                                         </div>
