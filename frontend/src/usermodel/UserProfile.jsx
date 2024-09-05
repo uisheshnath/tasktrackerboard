@@ -7,7 +7,7 @@ const UserProfile = () => {
     const { user } = useContext(UserContext);
     const [coverPhoto, setCoverPhoto] = useState('default-cover-photo-url');
     const [profilePhoto, setProfilePhoto] = useState('default-profile-photo-url');
-    const [activeTab, setActiveTab] = useState('Profile'); // State for active tab
+    const [activeTab, setActiveTab] = useState('Profile');
 
     const handleFileUpload = (event, setPhoto) => {
         const file = event.target.files[0];
