@@ -3,6 +3,7 @@ import axios from "axios"
 import { NavLink, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Toastmsg from '../toasts/Toastmsg'; 
 
 let myurl = process.env.REACT_APP_COMMONURL
 
@@ -35,8 +36,8 @@ const Signup = () => {
 
     // Handle change events for form fields
     const [errors, setErrors] = useState({});
-    const [showToast, setShowToast] = useState(false);
-    const [progress, setProgress] = useState(0);
+    // const [showToast, setShowToast] = useState(false);
+    // const [progress, setProgress] = useState(0);
 
     const handleInputChange = (e) => {
         const { id, value, type, checked } = e.target;
@@ -169,18 +170,18 @@ const Signup = () => {
         }
 
     };
-    useEffect(() => {
-        if (showToast) {
-            const interval = setInterval(() => {
-                setProgress((prevProgress) => prevProgress - 1);
-            }, 30);
+    // useEffect(() => {
+    //     if (showToast) {
+    //         const interval = setInterval(() => {
+    //             setProgress((prevProgress) => prevProgress - 1);
+    //         }, 30);
 
-            setTimeout(() => {
-                setShowToast(false);
-                clearInterval(interval);
-            }, 3000);
-        }
-    }, [showToast]);
+    //         setTimeout(() => {
+    //             setShowToast(false);
+    //             clearInterval(interval);
+    //         }, 3000);
+    //     }
+    // }, [showToast]);
 
     // const notifyWarning = (e) => {
     //     e.preventDefault();
