@@ -36,7 +36,7 @@ const ProjectDetails = (props) => {
                                     <p className="fw-bold">Project Manager - <span className='fw-normal'>{props.manager}</span></p>
                                     <p className="fw-bold">Project Coordinator - <span className='fw-normal'>{props.coordinator}</span></p>
                                     <h6 className="mt-3 fw-bold">Website Link</h6>
-                                    <a className="mb-0" href={props.weblink}>{props.weblink}</a>
+                                    <a className="mb-0" href={`https://www.${props.weblink}`} target='__blank'> {props.weblink}</a>
                                 </div>
                                 <div className="tab-pane project_releases" id="project-detailspanel-1" role="tabpanel" aria-labelledby="project-details-1">
                                     <h6 className="mt-3 fw-bold">Upcoming</h6>
@@ -195,11 +195,11 @@ const ProjectDetails = (props) => {
                                             <div className="accordion-body pt-0">
                                                 <div className="mb-2">
                                                     <span className="link-name fs-6 fw-bold">Dev:</span>
-                                                    <a href={props.dev} className="btn btn-link">{props.dev}</a>
+                                                    <a href={`https://www.${props.dev}`} target='__blank' className="btn btn-link">{props.dev}</a>
                                                 </div>
                                                 <div>
                                                     <span className="link-name fs-6 fw-bold">Dev-Admin:</span>
-                                                    <a href={props.devadmin} className="btn btn-link">{props.devadmin}</a>
+                                                    <a href={`https://www.${props.devadmin}`} target='__blank' className="btn btn-link">{props.devadmin}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -212,11 +212,11 @@ const ProjectDetails = (props) => {
                                             <div className="accordion-body pt-0">
                                                 <div className="mb-2">
                                                     <span className="link-name fs-6 fw-bold">Testing:</span>
-                                                    <a href={props.v7} className="btn btn-link">{props.v7}</a>
+                                                    <a href={`https://www.${props.v7}`} target='__blank' className="btn btn-link">{props.v7}</a>
                                                 </div>
                                                 <div>
                                                     <span className="link-name fs-6 fw-bold">Testing Admin:</span>
-                                                    <a href={props.v7admin} className="btn btn-link">{props.v7admin}</a>
+                                                    <a href={`https://www.${props.v7admin}`} target='__blank' className="btn btn-link">{props.v7admin}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -229,11 +229,11 @@ const ProjectDetails = (props) => {
                                             <div className="accordion-body pt-0">
                                                 <div className="mb-2">
                                                     <span className="link-name fs-6 fw-bold">Stage:</span>
-                                                    <a href={props.Stage} className="btn btn-link">{props.Stage}</a>
+                                                    <a href={`https://www.${props.Stage}`} target='__blank' className="btn btn-link">{props.Stage}</a>
                                                 </div>
                                                 <div>
                                                     <span className="link-name fs-6 fw-bold">Stage-Admin:</span>
-                                                    <a href={props.Stageadmin} className="btn btn-link">{props.Stageadmin}</a>
+                                                    <a href={`https://www.${props.Stageadmin}`} target='__blank' className="btn btn-link">{props.Stageadmin}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -246,11 +246,11 @@ const ProjectDetails = (props) => {
                                             <div className="accordion-body pt-0">
                                                 <div className="mb-2">
                                                     <span className="link-name fs-6 fw-bold">Prod:</span>
-                                                    <a href={props.Prod} className="btn btn-link">{props.Prod}</a>
+                                                    <a href={`https://www.${props.Prod}`} target='__blank' className="btn btn-link">{props.Prod}</a>
                                                 </div>
                                                 <div>
                                                     <span className="link-name fs-6 fw-bold">Prod-Admin:</span>
-                                                    <a href={props.prodadmin} className="btn btn-link">{props.prodadmin} </a>
+                                                    <a href={`https://www.${props.prodadmin}`} target='__blank' className="btn btn-link">{props.prodadmin} </a>
                                                 </div>
                                             </div>
                                         </div>

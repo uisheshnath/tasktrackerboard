@@ -13,14 +13,13 @@ const Header = () => {
           .then(res => {
             console.log(res.data)
             if (res.data.Status === "Success") {
-                navigate('/login')
+                navigate('/')
             }
           })
           .catch(err => console.log(err))
       }
       const { user } = useContext(UserContext);
-    //   console.log(user)
-    
+ 
     return (
         <>
             <div className='top'>
@@ -38,7 +37,7 @@ const Header = () => {
                                     <NavLink className="nav-link header-nav-links" to={'/dashboard'}>Daily Updates</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink className="nav-link header-nav-links" to={'/login'}>Login</NavLink>
+                                    <NavLink className="nav-link header-nav-links" to={'/'}>Login</NavLink>
                                 </li>
                                 <li className="nav-item">
                                     <NavLink className="nav-link header-nav-links" to={'/signup'}>Sign Up</NavLink>

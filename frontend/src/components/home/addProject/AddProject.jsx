@@ -14,28 +14,28 @@ const AddProject = () => {
     let userid = user?.emp_id;
     const [pname, setPname] = useState([])
     const [pinformation, setPinformation] = useState([])
-    const [manager, setManager] = useState(null)
-    const [managerid, setManagerid] = useState(null)
-    const [coordinator, setCoordinator] = useState(null)
-    const [coordinatorid, setCoordinatorid] = useState(null)
+    const [manager, setManager] = useState(" ")
+    const [managerid, setManagerid] = useState(" ")
+    const [coordinator, setCoordinator] = useState(" ")
+    const [coordinatorid, setCoordinatorid] = useState(" ")
     const [btype, setBtype] = useState([])
     const [website, setWebsite] = useState([])
     const [upcomingRelease, setUpcomingRelease] = useState([]);
     const [currentRelease, setCurrentRelease] = useState([]);
     const [closedRelease, setClosedRelease] = useState([]);
     const [assignees, setAssignees] = useState([]);
-    const [dev, setDev] = useState([])
-    const [devadmin, setDevadmin] = useState([])
-    const [testing, setTesting] = useState([])
-    const [testingadmin, setTestingadmin] = useState([])
-    const [staging, setStaging] = useState([])
-    const [stagingadmin, setStagingadmin] = useState([])
-    const [production, setProduction] = useState([])
-    const [productionadmin, setProductionadmin] = useState([])
+    const [dev, setDev] = useState(" ")
+    const [devadmin, setDevadmin] = useState(" ")
+    const [testing, setTesting] = useState(" ")
+    const [testingadmin, setTestingadmin] = useState(" ")
+    const [staging, setStaging] = useState(" ")
+    const [stagingadmin, setStagingadmin] = useState(" ")
+    const [production, setProduction] = useState(" ")
+    const [productionadmin, setProductionadmin] = useState(" ")
 
     let values=[username,userid,pname, pinformation, manager, managerid, coordinator, coordinatorid, btype, website, upcomingRelease,
         currentRelease, closedRelease, assignees, dev, devadmin, testing, testingadmin, staging, stagingadmin, production, productionadmin]
-    console.dir(values)
+    // console.dir(values)
 
     // const [inputValue, setInputValue] = useState('');
     // const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -103,7 +103,14 @@ const AddProject = () => {
                     // Add any other headers if needed
                 }
             });
-            console.log('Data posted successfully:', response.data);
+            if(response.data.Message === "Success"){
+                console.log('Data posted successfully:', response.data);
+                window.location.reload()
+            }
+            else{
+                console.log('Error posting data:', response.data);
+            }
+            
             // window.location.reload()
         } catch (error) {
             console.error('Error posting data:', error);
@@ -169,13 +176,13 @@ const AddProject = () => {
                                         <div className="row mb-3">
                                             <label htmlFor="projectName" className="text-start col-12 col-md-4 col-form-label">Project Name</label>
                                             <div className="col-12 col-md-8">
-                                                <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name" onChange={(e) => { setPname(e.target.value) }} />
+                                                <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name" onChange={(e) => { setPname(e.target.value) }}   required />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="projectInfo" className="text-start col-12 col-md-4 col-form-label">Project Information</label>
                                             <div className="col-12 col-md-8">
-                                                <textarea className="form-control" id="projectInfo" rows="3" placeholder="Enter project information" onChange={(e) => { setPinformation(e.target.value) }}></textarea>
+                                                <textarea className="form-control" id="projectInfo" rows="3" placeholder="Enter project information" onChange={(e) => { setPinformation(e.target.value) }} required></textarea>
                                             </div>
                                         </div>
                                         <div className="row mb-3">
@@ -192,20 +199,20 @@ const AddProject = () => {
                                             <div className="col-12 col-md-8">
                                                 <div className="input-group">
                                                     <input type="text" aria-label="First name" placeholder="Emp ID" className="form-control" onChange={(e) => { setCoordinatorid(e.target.value) }} />
-                                                    <input type="text" aria-label="Last name" placeholder="Name" className="form-control" onChange={(e) => { setCoordinator(e.target.value) }} />
+                                                    <input type="text" aria-label="Last name" placeholder="Name" className="form-control" onChange={(e) => { setCoordinator(e.target.value) }}/>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="businessType" className="text-start col-12 col-md-4 col-form-label">Business Type</label>
                                             <div className="col-12 col-md-8">
-                                                <input type="text" className="form-control" id="businessType" placeholder="Enter Business Type" onChange={(e) => { setBtype(e.target.value) }} />
+                                                <input type="text" className="form-control" id="businessType" placeholder="Enter Business Type" onChange={(e) => { setBtype(e.target.value) }} required />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="websiteLink" className="text-start col-12 col-md-4 col-form-label">Website Link</label>
                                             <div className="col-12 col-md-8">
-                                                <input type="text" className="form-control" id="websiteLink" placeholder="Enter Website Link" onChange={(e) => { setWebsite(e.target.value) }} />
+                                                <input type="text" className="form-control" id="websiteLink" placeholder="Enter Website Link" onChange={(e) => { setWebsite(e.target.value) }} required />
                                             </div>
                                         </div>
                                     </div>
@@ -223,6 +230,7 @@ const AddProject = () => {
                                                         id="upcomingRelease"
                                                         dateFormat="yyyy-MM-dd"
                                                         placeholderText='Pick Date'
+                                                        required
                                                     />
                                                 </div>
                                             </div>
@@ -236,6 +244,7 @@ const AddProject = () => {
                                                         id="upcomingRelease"
                                                         dateFormat="yyyy-MM-dd"
                                                         placeholderText='Pick Date'
+                                                        required
                                                     />
                                                 </div>
                                             </div>
@@ -249,6 +258,7 @@ const AddProject = () => {
                                                         id="upcomingRelease"
                                                         dateFormat="yyyy-MM-dd"
                                                         placeholderText='Pick Date'
+                                                        required
                                                     />
                                                 </div>
                                             </div>
@@ -293,13 +303,13 @@ const AddProject = () => {
                                             <div className="row mb-2">
                                                 <label htmlFor="section1Link1" className="text-start col-12 col-md-4 col-form-label">Dev</label>
                                                 <div className="col-12 col-md-8">
-                                                    <input type="text" className="form-control" id="section1Link1" placeholder="Enter Dev Link " onChange={(e) => { setDev(e.target.value) }} />
+                                                    <input type="text" className="form-control" id="section1Link1" placeholder="Enter Dev Link " onChange={(e) => { setDev(e.target.value) }} value={dev} />
                                                 </div>
                                             </div>
                                             <div className="row mb-2">
                                                 <label htmlFor="section1Link2" className="text-start col-12 col-md-4 col-form-label">Dev-Admin</label>
                                                 <div className="col-12 col-md-8">
-                                                    <input type="text" className="form-control" id="section1Link2" placeholder="Enter  Dev-Admin Link " onChange={(e) => { setDevadmin(e.target.value) }} />
+                                                    <input type="text" className="form-control" id="section1Link2" placeholder="Enter  Dev-Admin Link " onChange={(e) => { setDevadmin(e.target.value) }} value={devadmin} />
                                                 </div>
                                             </div>
                                         </div>
@@ -309,13 +319,13 @@ const AddProject = () => {
                                             <div className="row mb-2">
                                                 <label htmlFor="section2Link1" className="text-start col-12 col-md-4 col-form-label">Testing </label>
                                                 <div className="col-12 col-md-8">
-                                                    <input type="text" className="form-control" id="section2Link1" placeholder="Enter V7 Link" onChange={(e) => { setTesting(e.target.value) }} />
+                                                    <input type="text" className="form-control" id="section2Link1" placeholder="Enter V7 Link" onChange={(e) => { setTesting(e.target.value) }} value={testing} />
                                                 </div>
                                             </div>
                                             <div className="row mb-2">
                                                 <label htmlFor="section2Link2" className="text-start col-12 col-md-4 col-form-label">Testing Admin</label>
                                                 <div className="col-12 col-md-8">
-                                                    <input type="text" className="form-control" id="section2Link2" placeholder="Enter V7 Admin Link" onChange={(e) => { setTestingadmin(e.target.value) }} />
+                                                    <input type="text" className="form-control" id="section2Link2" placeholder="Enter V7 Admin Link" onChange={(e) => { setTestingadmin(e.target.value) }} value={testingadmin} />
                                                 </div>
                                             </div>
                                         </div>
@@ -325,13 +335,13 @@ const AddProject = () => {
                                             <div className="row mb-2">
                                                 <label htmlFor="section2Link1" className="text-start col-12 col-md-4 col-form-label">Staging</label>
                                                 <div className="col-12 col-md-8">
-                                                    <input type="text" className="form-control" id="section2Link1" placeholder="Enter Staging Link" onChange={(e) => { setStaging(e.target.value) }} />
+                                                    <input type="text" className="form-control" id="section2Link1" placeholder="Enter Staging Link" onChange={(e) => { setStaging(e.target.value) }} value={staging} />
                                                 </div>
                                             </div>
                                             <div className="row mb-2">
                                                 <label htmlFor="section2Link2" className="text-start col-12 col-md-4 col-form-label">Staging Admin</label>
                                                 <div className="col-12 col-md-8">
-                                                    <input type="text" className="form-control" id="section2Link2" placeholder="Enter Staging Admin Link" onChange={(e) => { setStagingadmin(e.target.value) }} />
+                                                    <input type="text" className="form-control" id="section2Link2" placeholder="Enter Staging Admin Link" onChange={(e) => { setStagingadmin(e.target.value) }} value={stagingadmin} />
                                                 </div>
                                             </div>
                                         </div>
@@ -341,13 +351,13 @@ const AddProject = () => {
                                             <div className="row mb-2">
                                                 <label htmlFor="section2Link1" className="text-start col-12 col-md-4 col-form-label">Production</label>
                                                 <div className="col-12 col-md-8">
-                                                    <input type="text" className="form-control" id="section2Link1" placeholder="Enter Production Link" onChange={(e) => { setProduction(e.target.value) }} />
+                                                    <input type="text" className="form-control" id="section2Link1" placeholder="Enter Production Link" onChange={(e) => { setProduction(e.target.value) }} value={production} />
                                                 </div>
                                             </div>
                                             <div className="row mb-2">
                                                 <label htmlFor="section2Link2" className="text-start col-12 col-md-4 col-form-label">Production Admin</label>
                                                 <div className="col-12 col-md-8">
-                                                    <input type="text" className="form-control" id="section2Link2" placeholder="Enter Production Admin  Link " onChange={(e) => { setProductionadmin(e.target.value) }} />
+                                                    <input type="text" className="form-control" id="section2Link2" placeholder="Enter Production Admin  Link " onChange={(e) => { setProductionadmin(e.target.value) }} value={productionadmin} />
                                                 </div>
                                             </div>
                                         </div>
