@@ -21,8 +21,8 @@ function App() {
       <Router>
         <Routes>
           <Route path='/dashboard' element={<Main/>} />
-          <Route path='/' element={<Home/>} />
-          <Route path='/login' element={<Login/>} />
+          <Route path='/home' element={<Home/>} />
+          <Route path='/' element={<Login/>} />
           <Route path='/signup' element={<Signup/>} />
           <Route path='/profile' element={<UserProfile />} />
           <Route path='/heirarchy' element={<Heirarchy/>} />

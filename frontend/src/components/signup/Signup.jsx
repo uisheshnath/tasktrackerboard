@@ -138,7 +138,7 @@ const Signup = () => {
                             progressStyle: { backgroundColor: '#ffc107' }
                         });
                         setTimeout(() => {
-                            navigate("/login");
+                            navigate("/");
                         }, 1500);
                     } else {
                         toast.error(response.data.Error, {
@@ -220,7 +220,7 @@ const Signup = () => {
                             <div className="card rounded-5">
                                 <div className="card-body p-12">
                                     <h2 className="card-title">Sign Up</h2>
-                                    <p className="card-text">Already have an account? <NavLink to={'/login'}>Sign In</NavLink>
+                                    <p className="card-text">Already have an account? <NavLink to={'/'}>Sign In</NavLink>
                                         {/* <a href="/" onClick={notifyWarning}>404</a> */}
                                     </p>
                                     <form onSubmit={handleSubmit}>
