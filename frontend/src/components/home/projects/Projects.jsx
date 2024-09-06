@@ -6,6 +6,7 @@ import axios from 'axios';
 import UserContext from '../../../usermodel/UserContext';
 import AddProject from '../addProject/AddProject'; // Ensure the path is correct
 import { format } from 'date-fns';
+import EditProjectForm from '../editProject/EditProjectForm';
 const formatDate = (dateString) => {
     return format(new Date(dateString), 'dd-MMM-yyyy');
 };
@@ -28,7 +29,31 @@ const Projects = () => {
 
     const valueGet = (index, item) => {
         setSender(item);
-    };
+    }; 
+
+    // delete project
+    const handleDelete = async (id) => {
+        let confirmation = window.confirm("Are you sure you want to delete the project")
+        if (confirmation) {
+        try {
+            let response = await axios.delete(`${myurl}/api/deleteproject/${id}`);
+
+            if (response.data && response.data.Message === "Success") {
+                console.log('Data deleted successfully:', response.data);
+                window.location.reload();
+            } else {
+                console.log('Error deleting data:', response.data);
+            }
+        } catch (error) {
+            console.error('Something went wrong:', error);
+        }
+        }
+    }
+    // edit project
+    const editHandle = (e)=>{
+        setSender(e);
+        console.log(e)
+    }
 
     return (
         <>
@@ -51,11 +76,11 @@ const Projects = () => {
                                                 <i className="fa fa-ellipsis-v"></i>
                                             </button>
                                             <ul className="dropdown-menu">
+                                               <li>
+                                                    <a className="dropdown-item"  href="#" data-bs-toggle="modal" data-bs-target="#editProject" onClick={()=>editHandle(item)} ><i className="fa fa-pencil me-3"></i>Edit</a>
+                                               </li>
                                                 <li>
-                                                    <a className="dropdown-item" href="#"><i className="fa fa-pencil me-3"></i>Edit</a>
-                                                </li>
-                                                <li>
-                                                    <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Delete</a>
+                                                    <a className="dropdown-item" href="#" onClick={() => handleDelete(item.id)}><i className="fa fa-trash me-3"></i>Delete</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -101,6 +126,7 @@ const Projects = () => {
                                             Prod={sender?.production}
                                             prodadmin={sender?.production_admin}
                                         />
+                                         <EditProjectForm xyz={sender} project_name={sender?.project_name}/>
                                     </div>
                                 </div>
                             </div>
@@ -109,6 +135,7 @@ const Projects = () => {
                 </div>
             </div>
             <AddProject />
+           
         </>
     );
 };
