@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Cookies from "js-cookie"
+import Toastmsg from '../toasts/Toastmsg'; 
+
 let myurls = process.env.REACT_APP_COMMONURL
 
 
@@ -13,6 +15,7 @@ const Login = () => {
     const [terms, setTerms] = useState(null)
     const [showToast, setShowToast] = useState(false);
     const [logauth, setLogauth] = useState()
+
     axios.defaults.withCredentials = true;
     //    console.log(logauth)
     // console.log(terms, myurls)
@@ -98,18 +101,9 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <div className={`toast-container top-0 end-0 p-3 `} style={{ position: 'fixed', zIndex: 1050 }}>
-                <div className={`toast ${showToast ? 'show' : 'hide'} fade`} role="alert" aria-live="assertive" aria-atomic="true">
-                    <div className="toast-body text-bg-success">
-                        <div className="d-flex gap-4">
-                            <div className="d-flex flex-grow-1 align-items-center">
-                                <span className="fw-semibold">Logged In successfully!</span>
-                                <button type="button" className="btn-close btn-close-sm btn-close-black ms-auto" aria-label="Close" onClick={() => setShowToast(false)}></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+            <Toastmsg show={showToast} message="Logged in successfully!" onClose={() => setShowToast(false)} />
+                
         </>
     )
 }
