@@ -6,16 +6,17 @@ import axios from 'axios';
 import UserContext from '../../../usermodel/UserContext';
 import AddProject from '../addProject/AddProject'; // Ensure the path is correct
 import { format } from 'date-fns';
-import EditProjectForm from '../editProject/EditProjectForm';
+import EditProjectForm from '../editProject/EditProjectForm'; 
 const formatDate = (dateString) => {
     return format(new Date(dateString), 'dd-MMM-yyyy');
 };
 
 let myurl = process.env.REACT_APP_COMMONURL;
-
+ 
 const Projects = () => {
     const [filter, setFilter] = useState([]);
     const [sender, setSender] = useState(undefined);
+    const [projectfunck, setProjectfunck] = useState(undefined);
     const { user } = useContext(UserContext);
 
     useEffect(() => {
@@ -51,8 +52,10 @@ const Projects = () => {
     }
     // edit project
     const editHandle = (e)=>{
+    let resetForm = document.querySelector("#editProject form")
+       resetForm.reset()
         setSender(e);
-        console.log(e)
+        setProjectfunck()
     }
 
     return (
@@ -78,7 +81,9 @@ const Projects = () => {
                                             <ul className="dropdown-menu">
                                                <li>
                                                     <a className="dropdown-item"  href="#" data-bs-toggle="modal" data-bs-target="#editProject" onClick={()=>editHandle(item)} ><i className="fa fa-pencil me-3"></i>Edit</a>
+                                                     
                                                </li>
+                                               
                                                 <li>
                                                     <a className="dropdown-item" href="#" onClick={() => handleDelete(item.id)}><i className="fa fa-trash me-3"></i>Delete</a>
                                                 </li>
@@ -126,7 +131,7 @@ const Projects = () => {
                                             Prod={sender?.production}
                                             prodadmin={sender?.production_admin}
                                         />
-                                         <EditProjectForm xyz={sender} project_name={sender?.project_name}/>
+                                         <EditProjectForm xyz={sender} />
                                     </div>
                                 </div>
                             </div>

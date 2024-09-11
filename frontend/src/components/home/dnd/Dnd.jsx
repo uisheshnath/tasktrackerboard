@@ -1,25 +1,104 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './dnd.css';
+import UserContext from '../../../usermodel/UserContext';
+import axios from 'axios';
+import { format } from 'date-fns';
+import WithTLtask from '../task/WithTLtask';
+import WithoutTLtask from '../task/WithoutTLtask';
+import EditTask from '../task/EditTask';
+import Filter , {Another} from '../../filter/Filter';
+
+const formatDate = (dateString) => {
+    return format(new Date(dateString), 'dd-MMM-yyyy');
+};
+const formatDate2 = (dateString) => {
+    return format(new Date(dateString), 'yyyy-MM-dd');
+};
+ 
+let myurl = process.env.REACT_APP_COMMONURL
 
 const Dnd = () => {
     const [startDate, setStartDate] = useState(new Date());
+    const [todo, setTodo] = useState([])
+    const [inprogress, setInprogress] = useState([])
+    const [done, setDone] = useState([])
+    const [userrecord, setUserrecord] = useState([])
+    const [projectrecord, setProjectrecord] = useState([])
+    const [edittask, setEdittask] = useState([])
+    const { user } = useContext(UserContext);
+    const isEligible = ['hod', 'tr', 'team lead'].includes(user?.designation);
+    const [start_date, setStartdate] = useState([]);
+    const [end_date, setEnddate] = useState([]);
+    
+
+    //  For show task
+    useEffect(() => {
+        axios.get(`${myurl}/api/task`)
+            .then((response) => {
+                let dataResult = response.data;
+                if (isEligible) {
+                    let editData = dataResult.filter((item) => item.reporting_to_id === user?.emp_id)
+                    let inprogressData = editData.filter((item) => item.status === "inProgress")
+                    let todoData = editData.filter((item) => item.status === "ToDo")
+                    let doneData = editData.filter((item) => item.status === "Done")
+                    setTodo(todoData?.reverse())
+                    setInprogress(inprogressData?.reverse())
+                    setDone(doneData?.reverse())
+                    setUserrecord(editData?.reverse())
+                    // console.log("You are eligible to edit.", editData);
+                } else {
+                    let showData = dataResult.filter((item) => item.emp_id === user?.emp_id)
+                    let inprogressData = showData.filter((item) => item.status === "inProgress")
+                    let todoData = showData.filter((item) => item.status === "ToDo")
+                    let doneData = showData.filter((item) => item.status === "Done")
+                    setTodo(todoData?.reverse())
+                    setInprogress(inprogressData?.reverse())
+                    setDone(doneData?.reverse())
+                    setUserrecord(showData?.reverse())
+                    // console.log("You are not eligible to edit.",showData);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [user]);
+
+    //  For show project
+    useEffect(() => {
+        axios.get(`${myurl}/api/project`)
+            .then((response) => {
+                let dataResult = response.data;
+                let editData = dataResult.filter((item) => item.user_id === user?.emp_id)
+                let usereditData = dataResult.filter((item) => item.user_id === user?.reporting_to_id)
+                if (isEligible) {
+                    setProjectrecord(editData)
+                }
+                else{
+                    setProjectrecord(usereditData)
+                }
+            }
+            )
+            .catch((error) => { console.error(error); });
+    }, [projectrecord])
+
+    const addTask = () => {  return isEligible ? <WithTLtask record={userrecord} project={projectrecord} user={user} /> : <WithoutTLtask record={userrecord} project={projectrecord} user={user} />}
+     const onEdittask = (event)=>{  
+        setEdittask(event) 
+        setStartdate(formatDate2(event?.start_date))
+        setEnddate(formatDate2(event?.end_date))
+     }
 
     return (
         <div className="dnd">
-            <div className="datepicker d-flex justify-content-end align-items-center gap-2">
-                <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    dateFormat="dd-MM-yyyy"
-                />
-                <button type="submit" className="btn btn-primary">Submit</button>
-            </div>
+            <Filter />
+            <Another />
+            <EditTask  project={projectrecord} task={edittask}  start_date={start_date} end_date={end_date}/>
             <div className="board">
                 <div className="column boardColumn" id="todo" onDrop={dropIt} onDragOver={allowDrop}>
                     <div className="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
-                        <h3 className="mb-0 todo_section fs-6">To Do</h3>
+                        <h3 className="mb-0 todo_section fs-6">To Do  </h3>
                         <a data-bs-toggle="modal" data-bs-target="#addTodo" aria-current="page" className="progress-area-add-section active" href="#">
                             <i className="fa fa-plus-circle fs-1"></i>
                         </a>
@@ -31,50 +110,80 @@ const Dnd = () => {
                                     <h5 className="modal-title" id="addTodoLabel">Add New Task</h5>
                                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div className="modal-body">
-                                    <form>
-                                        <div className="mb-3">
-                                            <label htmlFor="employeeName" className="form-label">Employee Name</label>
-                                            <input type="text" className="form-control" id="employeeName" placeholder="Enter Employee Name"></input>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="projectName" className="form-label">Project Name</label>
-                                            <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name"></input>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="taskTitle" className="form-label">Task Title</label>
-                                            <input type="text" className="form-control" id="taskTitle" placeholder="Enter task title"></input>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="taskDescription" className="form-label">Task Description</label>
-                                            <textarea className="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="taskPriority" className="form-label">Priority</label>
-                                            <select className="form-select" id="taskPriority">
-                                                <option value="low">Low</option>
-                                                <option value="medium">Medium</option>
-                                                <option value="high">High</option>
-                                            </select>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="startDate" className="form-label">Start Date</label>
-                                            <input type="date" className="form-control" id="startDate"></input>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="endDate" className="form-label">End Date</label>
-                                            <input type="date" className="form-control" id="endDate"></input>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" className="btn btn-primary">Submit</button>
-                                </div>
+                                {addTask()}
                             </div>
                         </div>
                     </div>
-                    <div id="task-1" className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
+                    {
+                        todo?.map((item, index) => {
+                            return (
+                                <>
+                                    <div id={`task-${item.id}`} key={index} className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
+                                        <div className="card border-0">
+                                            <div className="card-header d-flex align-items-center border-bottom">
+                                                <span className="avatar text-bg-primary avatar-lg fs-5">{item?.emp_name.slice(0, 1).toUpperCase()}</span>
+                                                <div className="ms-3">
+                                                    <h6 className="mb-0 fs-sm">{item.project_name}</h6>
+                                                    <span className="text-muted fs-sm">{item.emp_name}</span>
+                                                </div>
+                                                <div className="dropstart ms-auto">
+                                                    <button className="btn text-muted" type="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i className="fa fa-ellipsis-v"></i>
+                                                    </button>
+                                                    <ul className="dropdown-menu">
+                                                        <li>
+                                                            <a className="dropdown-item"  data-bs-toggle="modal" data-bs-target="#editTask" onClick={()=>{onEdittask(item)}}><i className="fa fa-pencil me-3" ></i>Edit</a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" onClick={() => deleteCard(item.id)}>
+                                                                <i className="fa fa-trash me-3"></i>Delete
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'in-progress')}>
+                                                                <i className="fa fa-arrow-right me-3"></i>Move to In Progress
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'todo')}>
+                                                                <i className="fa fa-arrow-left me-3"></i>Move to To-Do
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'done')}>
+                                                                <i className="fa fa-check me-3"></i>Move to Done
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div className="card-body">
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Task: </span>{item.project_title}</p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Priority: </span><span className="badge rounded-pill text-bg-danger px-2 py-1">{item.priority}</span></p>
+                                                <p className="card-text fs-sm">
+                                                    <span className='fw-bold'>Description: </span>{item.description}
+                                                </p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Start Date: </span>{formatDate(item.start_date)}</p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>End Date: </span>{formatDate(item.end_date)}</p>
+                                            </div>
+                                            <div className="card-footer d-flex align-items-center">
+                                                <p className="mb-0 text-primary p-0 me-auto fw-bold">#{item.id}</p>
+                                                <button className="btn btn-danger rounded-5 me-3" type="button" onClick={removeCard}>
+                                                    <i className="fa fa-remove fa-lg"></i>
+                                                </button>
+                                                <button className="btn btn-success rounded-5" type="button" onClick={moveOrder}>
+                                                    <i className="fa fa-check fa-lg"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            )
+                        })
+                    }
+
+                    {/* <div id="task-2" className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
                         <div className="card border-0">
                             <div className="card-header d-flex align-items-center border-bottom">
                                 <span className="avatar text-bg-primary avatar-lg fs-5">S</span>
@@ -115,7 +224,7 @@ const Dnd = () => {
                                 </div>
                             </div>
                             <div className="card-body">
-                                <p className='mb-1 fs-sm'><span className='fw-bold'>Task: </span>Blog Page Layout</p>
+                                <p className='mb-1 fs-sm'><span className='fw-bold'>Task: </span>Blog Page Layout 1</p>
                                 <p className='mb-1 fs-sm'><span className='fw-bold'>Priority: </span><span className="badge rounded-pill text-bg-danger px-2 py-1">High</span></p>
                                 <p className="card-text fs-sm">
                                     <span className='fw-bold'>Description: </span>This impressive paella is a perfect party dish and a fun meal.
@@ -133,8 +242,8 @@ const Dnd = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
-                    <div id="task-2" className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
+                     </div>
+                     <div id="task-2" className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
                         <div className="card border-0">
                             <div className="card-header d-flex align-items-center border-bottom">
                                 <span className="avatar text-bg-primary avatar-lg fs-5">S</span>
@@ -173,7 +282,7 @@ const Dnd = () => {
                                 </div>
                             </div>
                             <div className="card-body">
-                                <p className='mb-1 fs-sm'><span className='fw-bold'>Task: </span>Blog Page Layout</p>
+                                <p className='mb-1 fs-sm'><span className='fw-bold'>Task: </span>Blog Page Layout 2</p>
                                 <p className='mb-1 fs-sm'><span className='fw-bold'>Priority: </span><span className="badge rounded-pill text-bg-danger px-2 py-1">Medium</span></p>
                                 <p className="card-text fs-sm">
                                     <span className='fw-bold'>Description: </span>This impressive paella is a perfect party dish and a fun meal.
@@ -191,62 +300,13 @@ const Dnd = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="column boardColumn" id="in-progress" onDrop={dropIt} onDragOver={allowDrop}>
                     <div className="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
                         <h3 className="mb-0 todo_section fs-6">In Progress</h3>
-                        <a data-bs-toggle="modal" data-bs-target="#addInProgress" aria-current="page" className="progress-area-add-section active" href="#">
-                            <i className="fa fa-plus-circle fs-1"></i>
-                        </a>
                     </div>
-                    <div className="modal fade" id="addInProgress" tabIndex="-1" aria-labelledby="addInProgressLabel" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id="addTodoLabel">Add New Task</h5>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div className="modal-body">
-                                    <form>
-                                        <div className="mb-3">
-                                            <label htmlFor="projectName" className="form-label">Project Name</label>
-                                            <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name"></input>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="taskTitle" className="form-label">Task Title</label>
-                                            <input type="text" className="form-control" id="taskTitle" placeholder="Enter task title"></input>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="taskDescription" className="form-label">Task Description</label>
-                                            <textarea className="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="taskPriority" className="form-label">Priority</label>
-                                            <select className="form-select" id="taskPriority">
-                                                <option value="low">Low</option>
-                                                <option value="medium">Medium</option>
-                                                <option value="high">High</option>
-                                            </select>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="startDate" className="form-label">Start Date</label>
-                                            <input type="date" className="form-control" id="startDate"></input>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="endDate" className="form-label">End Date</label>
-                                            <input type="date" className="form-control" id="endDate"></input>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" className="btn btn-primary">Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="task-3" className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
+                    {/* <div id="task-3" className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
                         <div className="card  border-0 cards_progress_bay">
                             <div className="card-header d-flex align-items-center border-bottom">
                                 <span className="avatar text-bg-primary avatar-lg fs-5">S</span>
@@ -302,61 +362,148 @@ const Dnd = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
+                    {
+                        inprogress?.map((item, index) => {
+                            return (
+                                <>
+                                    <div id={`task-${item.id}`} key={index} className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
+                                        <div className="card border-0">
+                                            <div className="card-header d-flex align-items-center border-bottom">
+                                                <span className="avatar text-bg-primary avatar-lg fs-5">{item?.emp_name.slice(0, 1).toUpperCase()}</span>
+                                                <div className="ms-3">
+                                                    <h6 className="mb-0 fs-sm">{item.project_name}</h6>
+                                                    <span className="text-muted fs-sm">{item.emp_name}</span>
+                                                </div>
+                                                <div className="dropstart ms-auto">
+                                                    <button className="btn text-muted" type="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i className="fa fa-ellipsis-v"></i>
+                                                    </button>
+                                                    <ul className="dropdown-menu">
+                                                        <li>
+                                                            <a className="dropdown-item" href="#"><i className="fa fa-pencil me-3"></i>Edit</a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" onClick={() => deleteCard(item.id)}>
+                                                                <i className="fa fa-trash me-3"></i>Delete
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'in-progress')}>
+                                                                <i className="fa fa-arrow-right me-3"></i>Move to In Progress
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'todo')}>
+                                                                <i className="fa fa-arrow-left me-3"></i>Move to To-Do
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'done')}>
+                                                                <i className="fa fa-check me-3"></i>Move to Done
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div className="card-body">
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Task: </span>{item.project_title}</p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Priority: </span><span className="badge rounded-pill text-bg-danger px-2 py-1">{item.priority}</span></p>
+                                                <p className="card-text fs-sm">
+                                                    <span className='fw-bold'>Description: </span>{item.description}
+                                                </p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Start Date: </span>{formatDate(item.start_date)}</p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>End Date: </span>{formatDate(item.end_date)}</p>
+                                            </div>
+                                            <div className="card-footer d-flex align-items-center">
+                                                <p className="mb-0 text-primary p-0 me-auto fw-bold">#{item.id}</p>
+                                                <button className="btn btn-danger rounded-5 me-3" type="button" onClick={removeCard}>
+                                                    <i className="fa fa-remove fa-lg"></i>
+                                                </button>
+                                                <button className="btn btn-success rounded-5" type="button" onClick={moveOrder}>
+                                                    <i className="fa fa-check fa-lg"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            )
+                        })
+                    }
                 </div>
                 <div className="column boardColumn" id="done" onDrop={dropIt} onDragOver={allowDrop}>
                     <div className="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
                         <h3 className="mb-0 todo_section fs-6">Done</h3>
-                        <a data-bs-toggle="modal" data-bs-target="#doneState" aria-current="page" className="progress-area-add-section active" href="#">
-                            <i className="fa fa-plus-circle fs-1"></i>
-                        </a>
                     </div>
-                    <div className="modal fade" id="doneState" tabIndex="-1" aria-labelledby="doneStateLabel" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id="addTodoLabel">Add New Task</h5>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div className="modal-body">
-                                    <form>
-                                        <div className="mb-3">
-                                            <label htmlFor="projectName" className="form-label">Project Name</label>
-                                            <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name"></input>
+                    {
+                        done?.map((item, index) => {
+                            return (
+                                <>
+                                    <div id={`task-${item.id}`} key={index} className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
+                                        <div className="card border-0">
+                                            <div className="card-header d-flex align-items-center border-bottom">
+                                                <span className="avatar text-bg-primary avatar-lg fs-5">{item?.emp_name.slice(0, 1).toUpperCase()}</span>
+                                                <div className="ms-3">
+                                                    <h6 className="mb-0 fs-sm">{item.project_name}</h6>
+                                                    <span className="text-muted fs-sm">{item.emp_name}</span>
+                                                </div>
+                                                <div className="dropstart ms-auto">
+                                                    <button className="btn text-muted" type="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i className="fa fa-ellipsis-v"></i>
+                                                    </button>
+                                                    <ul className="dropdown-menu">
+                                                        <li>
+                                                            <a className="dropdown-item" href="#"><i className="fa fa-pencil me-3"></i>Edit</a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" onClick={() => deleteCard(item.id)}>
+                                                                <i className="fa fa-trash me-3"></i>Delete
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'in-progress')}>
+                                                                <i className="fa fa-arrow-right me-3"></i>Move to In Progress
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'todo')}>
+                                                                <i className="fa fa-arrow-left me-3"></i>Move to To-Do
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'done')}>
+                                                                <i className="fa fa-check me-3"></i>Move to Done
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div className="card-body">
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Task: </span>{item.project_title}</p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Priority: </span><span className="badge rounded-pill text-bg-danger px-2 py-1">{item.priority}</span></p>
+                                                <p className="card-text fs-sm">
+                                                    <span className='fw-bold'>Description: </span>{item.description}
+                                                </p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Start Date: </span>{formatDate(item.start_date)}</p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>End Date: </span>{formatDate(item.end_date)}</p>
+                                            </div>
+                                            <div className="card-footer d-flex align-items-center">
+                                                <p className="mb-0 text-primary p-0 me-auto fw-bold">#{item.id}</p>
+                                                <button className="btn btn-danger rounded-5 me-3" type="button" onClick={removeCard}>
+                                                    <i className="fa fa-remove fa-lg"></i>
+                                                </button>
+                                                <button className="btn btn-success rounded-5" type="button" onClick={moveOrder}>
+                                                    <i className="fa fa-check fa-lg"></i>
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="taskTitle" className="form-label">Task Title</label>
-                                            <input type="text" className="form-control" id="taskTitle" placeholder="Enter task title"></input>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="taskDescription" className="form-label">Task Description</label>
-                                            <textarea className="form-control" id="taskDescription" rows="3" placeholder="Enter task description"></textarea>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="taskPriority" className="form-label">Priority</label>
-                                            <select className="form-select" id="taskPriority">
-                                                <option value="low">Low</option>
-                                                <option value="medium">Medium</option>
-                                                <option value="high">High</option>
-                                            </select>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="startDate" className="form-label">Start Date</label>
-                                            <input type="date" className="form-control" id="startDate"></input>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="endDate" className="form-label">End Date</label>
-                                            <input type="date" className="form-control" id="endDate"></input>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" className="btn btn-primary">Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                    </div>
+                                </>
+                            )
+                        })
+                    }
                 </div>
             </div>
         </div>
@@ -463,15 +610,22 @@ function removeCard(event) {
     }
 }
 
-// Delete card
+// Delete Task Card
 function deleteCard(event) {
-    event.preventDefault();
-
-    const button = event.currentTarget;
-    const taskCard = button.closest('.task-card');
-    if (taskCard) {
-        taskCard.remove();
-        console.log("Task card deleted");
+    const confirmDel = window.confirm("Are you sure you want to delete?")
+    if(confirmDel){
+    axios.delete(`${myurl}/api/deletetask/${event}`)
+        .then(response => {
+            if (response.data.Message === "Success") { 
+                window.location.reload()
+              }
+              else {
+                console.log(response.data.Error);
+              }
+        })
+        .catch(error => {
+            console.error(error);
+        });
     }
 }
 

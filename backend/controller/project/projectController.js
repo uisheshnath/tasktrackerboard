@@ -89,9 +89,9 @@ const projectController = {
 
         db.query(sql, [...values, id], (err, results) => {
             if (!err) {
-                return res.json(results)
+                return res.json({Message:"Success"})
             } else {
-                console.log(err);
+                res.json({Error:"Something Wrong!"});
             }
         })
     },

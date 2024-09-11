@@ -27,7 +27,7 @@ const UserProfile = () => {
     return (
         <div className="container-fluid">
             <Header />
-            <h2 className="text-center">User Profile</h2>
+            {/* <h2 className="text-center">User Profile</h2>
             <div className="user-info mb-4">
                 <p><b>Name:</b> {user.emp_name}</p>
                 <p><b>ID:</b> {user.emp_id}</p>
@@ -35,7 +35,7 @@ const UserProfile = () => {
                 <p><b>Reporting To:</b> {user.reporting_to}</p>
                 <p><b>Designation:</b> {user.designation}</p>
                 <p><b>Department:</b> {user.department}</p>
-            </div>
+            </div> */}
 
             <div className="settings-container">
                 <h2 className="text-center">Settings</h2>
@@ -84,13 +84,13 @@ const UserProfile = () => {
                         <form>
                             {/* Profile Form Fields */}
                             <div className="row mb-3">
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-6 mb-2 ">
                                     <label htmlFor="name" className="form-label mb-0">Name</label>
-                                    <input type="text" className="form-control" id="name" placeholder="Name" disabled/>
+                                    <input type="text" className="form-control bg-body-secondary text-body-secondary " id="name" placeholder="Name" disabled value={user.emp_name}/>
                                 </div>
                                 <div className="col-md-6 mb-2">
                                     <label htmlFor="employee-id" className="form-label mb-0">Employee ID</label>
-                                    <input type="text" className="form-control" id="employee-id" placeholder="Employee ID" disabled/>
+                                    <input type="text" className="form-control bg-body-secondary text-body-secondary" id="employee-id" placeholder="Employee ID" value={user.emp_id} disabled/>
                                 </div>
                                 <div className="col-md-6 mb-2">
                                     <label htmlFor="personal-email" className="form-label mb-0">Personal Email ID</label>
@@ -98,7 +98,7 @@ const UserProfile = () => {
                                 </div>
                                 <div className="col-md-6 mb-2">
                                     <label htmlFor="official-email" className="form-label mb-0">Official Email ID</label>
-                                    <input type="email" className="form-control" id="official-email" placeholder="Official Email ID" disabled/>
+                                    <input type="email" className="form-control bg-body-secondary text-body-secondary" id="official-email" placeholder="Official Email ID" value={user.emp_email} disabled/>
                                 </div>
                                 <div className="col-md-6 mb-2">
                                     <label htmlFor="dob" className="form-label mb-0">Date of Birth</label>
@@ -110,19 +110,19 @@ const UserProfile = () => {
                                 </div>
                                 <div className="col-md-6 mb-2">
                                     <label htmlFor="designation" className="form-label mb-0">Designation</label>
-                                    <input type="text" className="form-control" id="designation" placeholder="Designation" disabled/>
+                                    <input type="text" className="form-control bg-body-secondary text-body-secondary" id="designation" placeholder="Designation"  disabled/>
                                 </div>
                                 <div className="col-md-6 mb-2">
                                     <label htmlFor="department" className="form-label mb-0">Department</label>
-                                    <input type="text" className="form-control" id="department" placeholder="Department" disabled/>
+                                    <input type="text" className="form-control bg-body-secondary text-body-secondary" id="department" placeholder="Department" value={user.department} disabled/>
                                 </div>
                                 <div className="col-md-6 mb-2">
                                     <label htmlFor="reporting-to" className="form-label mb-0">Reporting To</label>
-                                    <input type="text" className="form-control" id="reporting-to" placeholder="Reporting To" disabled/>
+                                    <input type="text" className="form-control bg-body-secondary text-body-secondary" id="reporting-to" placeholder="Reporting To" value={user.reporting_to} disabled/>
                                 </div>
                                 <div className="col-md-6 mb-2">
                                     <label htmlFor="reporting-designation" className="form-label mb-0">Reporting Person Designation</label>
-                                    <input type="text" className="form-control" id="reporting-designation" placeholder="Reporting Person Designation" disabled/>
+                                    <input type="text" className="form-control bg-body-secondary text-body-secondary" id="reporting-designation" placeholder="Reporting Person Designation" value={user.designation} disabled/>
                                 </div>
                             </div>
                             <button type="submit" className="btn btn-primary">Save Changes</button>
