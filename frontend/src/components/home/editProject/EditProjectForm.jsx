@@ -1,54 +1,63 @@
-import React, { useContext, useState } from 'react';
-import axios from "axios" 
-import 'react-datepicker/dist/react-datepicker.css'; 
+import React, { useContext, useEffect, useState } from 'react';
+import axios from "axios"
+import 'react-datepicker/dist/react-datepicker.css';
 import UserContext from '../../../usermodel/UserContext';
+import { format } from 'date-fns'; 
+const formatDate = (dateString) => {
+    return format(new Date(dateString), 'yyyy-MM-dd');
+};
+
 let myurl = process.env.REACT_APP_COMMONURL;
 const EditProjectForm = (props) => {
     let data = props.xyz
-    // console.log(data)
+    // console.log("shesh", data);
     const { user } = useContext(UserContext);
+    const [projectid , setProjectid] = useState()
     let username = user?.emp_name;
     let userid = user?.emp_id;
-    const [pname, setPname] = useState([props.project_name])
-    const [pinformation, setPinformation] = useState([data?.project_information])
-    const [manager, setManager] = useState([data?.manager_name])
-    const [managerid, setManagerid] = useState([data?.manager_id])
-    const [coordinator, setCoordinator] = useState([data?.coordinator_name])
-    const [coordinatorid, setCoordinatorid] = useState([data?.coordinator_id])
-    const [btype, setBtype] = useState([data?.business_type])
-    const [website, setWebsite] = useState([data?.website_link])
-    const [upcomingRelease, setUpcomingRelease] = useState([data?.upcoming_release]);
-    const [currentRelease, setCurrentRelease] = useState([data?.current_release]);
-    const [closedRelease, setClosedRelease] = useState([data?.closed_release]);
-    const [assignees, setAssignees] = useState([data?.assignee]);
-    const [dev, setDev] = useState([data?.dev])
-    const [devadmin, setDevadmin] = useState([data?.dev_admin])
-    const [testing, setTesting] = useState([data?.testing])
-    const [testingadmin, setTestingadmin] = useState([data?.v7_admin])
-    const [staging, setStaging] = useState([data?.staging])
-    const [stagingadmin, setStagingadmin] = useState([data?.staging_admin])
-    const [production, setProduction] = useState([data?.production])
-    const [productionadmin, setProductionadmin] = useState([data?.production_admin])
-
-    let values = [username, userid, pname, pinformation, manager, managerid, coordinator, coordinatorid, btype, website, upcomingRelease,
-        currentRelease, closedRelease, assignees, dev, devadmin, testing, testingadmin, staging, stagingadmin, production, productionadmin]
-    // console.dir(data)
+    const [pname, setPname] = useState([])
+    const [pinformation, setPinformation] = useState([])
+    const [manager, setManager] = useState([])
+    const [managerid, setManagerid] = useState([])
+    const [coordinator, setCoordinator] = useState([])
+    const [coordinatorid, setCoordinatorid] = useState([])
+    const [btype, setBtype] = useState([])
+    const [website, setWebsite] = useState([])
+    const [upcomingRelease, setUpcomingRelease] = useState([]);
+    const [currentRelease, setCurrentRelease] = useState([]);
+    const [closedRelease, setClosedRelease] = useState([]);
+    const [assignees, setAssignees] = useState([]);
+    const [assignees2, setAssignees2] = useState([]);
+    const [dev, setDev] = useState([])
+    const [devadmin, setDevadmin] = useState([])
+    const [testing, setTesting] = useState([])
+    const [testingadmin, setTestingadmin] = useState([])
+    const [staging, setStaging] = useState([])
+    const [stagingadmin, setStagingadmin] = useState([])
+    const [production, setProduction] = useState([])
+    const [productionadmin, setProductionadmin] = useState([]) 
  
-    const options = ["Ben", "Gwen", "Grandpa", "Omnitrix"];
+
+    // let values = [username, userid, pname, pinformation, manager, managerid, coordinator, coordinatorid, btype, website, upcomingRelease,
+    //     currentRelease, closedRelease, assignees, dev, devadmin, testing, testingadmin, staging, stagingadmin, production, productionadmin]
     
+
+    const options = ["Ben", "Gwen", "Grandpa", "Omnitrix"];
+
     const handleSelectChange = (e) => {
         const value = e.target.value;
-        if (value && !assignees.includes(value)) {
-            setAssignees([...assignees, value]);
+        if (value && !assignees2.includes(value)) {
+            setAssignees2([...assignees2, value]);
         }
     };
 
     const removePill = (value) => {
-        setAssignees(assignees.filter(assignee => assignee !== value));
+        setAssignees2(assignees2.filter(assignee2 => assignee2 !== value));
     };
 
+
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         const dataValues = {
             user_name: username,
             user_id: userid,
@@ -63,9 +72,9 @@ const EditProjectForm = (props) => {
             upcoming_release: upcomingRelease,
             current_release: currentRelease,
             closed_release: closedRelease,
-            assignee: assignees.join('\n'), // Join array elements with newline or other delimiter
+            assignee: assignees2.join('\n'),  
             dev: dev,
-            dev_admin: devadmin,
+            dev_admin: devadmin,    
             teesting_server: testing,
             v7_admin: testingadmin,
             staging: staging,
@@ -75,7 +84,7 @@ const EditProjectForm = (props) => {
         };
 
         try {
-            const response = await axios.post(`${myurl}/api/addproject`, dataValues, {
+            const response = await axios.put(`${myurl}/api/editproject/${projectid}`, dataValues, {
                 headers: {
                     'Content-Type': 'application/json',
                     // Add any other headers if needed
@@ -96,26 +105,62 @@ const EditProjectForm = (props) => {
 
     }
 
-    console.log(pname)
-   
+
+    // Form autofill when open edit form
+    useEffect(()=>{
+        setProjectid(data?.id)
+        setPname(data?.project_name)
+        setPinformation(data?.project_information)
+        setManager(data?.manager_name)
+        setManagerid(data?.manager_id)
+        setCoordinator(data?.coordinator_name)
+        setCoordinatorid(data?.coordinator_id)
+        setBtype(data?.business_type)
+        setWebsite(data?.website_link)
+        setUpcomingRelease(data?.upcoming_release ? formatDate(data?.upcoming_release) : '');
+        setCurrentRelease(data?.current_release ? formatDate(data?.current_release) : '');
+        setClosedRelease(data?.closed_release ? formatDate(data?.closed_release) : '');
+        setAssignees(data?.assignee);
+        if (data?.assignee) {
+            setAssignees2((prev) => {
+                let splitted = data?.assignee.split(/\n/);
+              return [...prev, ...splitted];
+            });
+        }
+        setDev(data?.dev)
+        setDevadmin(data?.dev_admin)
+        setTesting(data?.teesting_server)
+        setTestingadmin(data?.v7_admin)
+        setStaging(data?.staging)
+        setStagingadmin(data?.staging_admin)
+        setProduction(data?.production)
+        setProductionadmin(data?.production_admin)
+    },[data]);
 
 
-  return (
-    <>
-        <div class="modal fade" id="editProject" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    // Reset the form fields
+    const resetFormreload = () => {
+        setPname(''); setPinformation(''); setManagerid(''); setManager(''); setCoordinatorid(''); setCoordinator(''); setBtype(''); setWebsite(''); setUpcomingRelease(''); setCurrentRelease(''); setClosedRelease(''); setAssignees2([]); setDev(''); setDevadmin(''); setTesting(''); setTestingadmin(''); setStaging(''); setStagingadmin(''); setProduction(''); setProductionadmin('');
+    };
+    const resetForm =() =>{ 
+        resetFormreload()
+    }
+
+    return (
+        <>
+            <div className="modal fade" id="editProject"  data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="addTodoLabel">Edit Project</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={resetForm}></button>
                         </div>
                         <div className="modal-body">
-
-                            
-
                             <form onSubmit={handleSubmit}>
                                 <div id="projectInfoSection">
-                                    <h5 className="text-start">Project Information </h5>
+                                    <div className="d-flex justify-content-between align-items-top pb-5">
+                                        <h5 className="text-start">Project Information</h5>
+                                    </div>
                                     <div className="row mb-3">
                                         <label htmlFor="projectName" className="text-start col-12 col-md-4 col-form-label">Project Name</label>
                                         <div className="col-12 col-md-8">
@@ -125,7 +170,7 @@ const EditProjectForm = (props) => {
                                     <div className="row mb-3">
                                         <label htmlFor="projectInfo" className="text-start col-12 col-md-4 col-form-label">Project Information</label>
                                         <div className="col-12 col-md-8">
-                                            <textarea className="form-control" id="projectInfo" rows="3" placeholder="Enter project information" onChange={(e) => { setPinformation(e.target.value) }} required></textarea>
+                                            <textarea className="form-control" id="projectInfo" rows="3" placeholder="Enter project information" onChange={(e) => { setPinformation(e.target.value) }} value={pinformation} required></textarea>
                                         </div>
                                     </div>
                                     <div className="row mb-3">
@@ -149,13 +194,13 @@ const EditProjectForm = (props) => {
                                     <div className="row mb-3">
                                         <label htmlFor="businessType" className="text-start col-12 col-md-4 col-form-label">Business Type</label>
                                         <div className="col-12 col-md-8">
-                                            <input type="text" className="form-control" id="businessType" placeholder="Enter Business Type" onChange={(e) => { setBtype(e.target.value) }} required />
+                                            <input type="text" className="form-control" id="businessType" placeholder="Enter Business Type" onChange={(e) => { setBtype(e.target.value) }} value={btype} required />
                                         </div>
                                     </div>
                                     <div className="row mb-3">
                                         <label htmlFor="websiteLink" className="text-start col-12 col-md-4 col-form-label">Website Link</label>
                                         <div className="col-12 col-md-8">
-                                            <input type="text" className="form-control" id="websiteLink" placeholder="Enter Website Link" onChange={(e) => { setWebsite(e.target.value) }} required />
+                                            <input type="text" className="form-control" id="websiteLink" placeholder="Enter Website Link" onChange={(e) => { setWebsite(e.target.value) }} value={website} required />
                                         </div>
                                     </div>
                                 </div>
@@ -173,6 +218,7 @@ const EditProjectForm = (props) => {
                                                     id="upcomingRelease"
                                                     dateFormat="yyyy-MM-dd"
                                                     placeholderText='Pick Date'
+                                                    value={upcomingRelease}
                                                     required
                                                 />
                                             </div>
@@ -187,6 +233,7 @@ const EditProjectForm = (props) => {
                                                     id="upcomingRelease"
                                                     dateFormat="yyyy-MM-dd"
                                                     placeholderText='Pick Date'
+                                                    value={currentRelease}
                                                     required
                                                 />
                                             </div>
@@ -201,6 +248,7 @@ const EditProjectForm = (props) => {
                                                     id="upcomingRelease"
                                                     dateFormat="yyyy-MM-dd"
                                                     placeholderText='Pick Date'
+                                                    value={closedRelease}
                                                     required
                                                 />
                                             </div>
@@ -219,7 +267,7 @@ const EditProjectForm = (props) => {
                                     >
                                         <option value="">Select Assignee</option>
                                         {options
-                                            .filter(option => !assignees.includes(option))
+                                            .filter(option => !assignees2.includes(option))
                                             .map((option, index) => (
                                                 <option key={index} value={option}>
                                                     {option}
@@ -227,7 +275,7 @@ const EditProjectForm = (props) => {
                                             ))}
                                     </select>
                                     <div className="pill-container mt-2" id="pillContainer">
-                                        {assignees.map((assignee, index) => (
+                                        {assignees2?.map((assignee, index) => (
                                             <div className="pill" key={index}>
                                                 {assignee}
                                                 <span className="close-icon" onClick={() => removePill(assignee)}>
@@ -315,8 +363,8 @@ const EditProjectForm = (props) => {
                     </div>
                 </div>
             </div>
-    </>
-  )
+        </>
+    )
 }
 
 export default EditProjectForm
