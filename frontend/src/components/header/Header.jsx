@@ -36,12 +36,12 @@ const Header = () => {
                                 <li className="nav-item">
                                     <NavLink className="nav-link header-nav-links" to={'/dashboard'}>Daily Updates</NavLink>
                                 </li>
-                                <li className="nav-item">
+                                {/* <li className="nav-item">
                                     <NavLink className="nav-link header-nav-links" to={'/'}>Login</NavLink>
                                 </li>
                                 <li className="nav-item">
                                     <NavLink className="nav-link header-nav-links" to={'/signup'}>Sign Up</NavLink>
-                                </li>
+                                </li> */}
                                 <li className="nav-item">
                                     <NavLink className="nav-link header-nav-links"to={'/heirarchy'}>Heirarchy</NavLink>
                                 </li>
