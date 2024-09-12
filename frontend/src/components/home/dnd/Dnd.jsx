@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 import WithTLtask from '../task/WithTLtask';
 import WithoutTLtask from '../task/WithoutTLtask';
 import EditTask from '../task/EditTask';
-import Filter , {Another} from '../../filter/Filter';
+import Filter from '../../filter/Filter';
 
 const formatDate = (dateString) => {
     return format(new Date(dateString), 'dd-MMM-yyyy');
@@ -93,7 +93,6 @@ const Dnd = () => {
     return (
         <div className="dnd">
             <Filter />
-            <Another />
             <EditTask  project={projectrecord} task={edittask}  start_date={start_date} end_date={end_date}/>
             <div className="board">
                 <div className="column boardColumn" id="todo" onDrop={dropIt} onDragOver={allowDrop}>
