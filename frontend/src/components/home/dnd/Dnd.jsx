@@ -8,11 +8,7 @@ import { format } from 'date-fns';
 import WithTLtask from '../task/WithTLtask';
 import WithoutTLtask from '../task/WithoutTLtask';
 import EditTask from '../task/EditTask';
-<<<<<<< HEAD
-import Filter from '../../filter/Filter';
-=======
 import Filter, { Another } from '../../filter/Filter';
->>>>>>> 95b7a28284df981d043ee7ccb2d8228a6fad726d
 
 const formatDate = (dateString) => {
     return format(new Date(dateString), 'dd-MMM-yyyy');
