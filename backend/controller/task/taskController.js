@@ -49,27 +49,26 @@ const taskController = {
         })
     },
     edittaskinformation: (req, res) => {
-        const sql = "update task_information set `emp_name`=?, `emp_id`=?, `reporting_to`=?, `reporting_to_id`=?, `project_name`=?, `project_title`=?,`description`=?,`priority`=?, `start_date`=?, `end_date`=?, `status`=?  where ID = ?";
+        const sql = "update task_information set  `project_name`=?, `project_title`=?,`description`=?,`priority`=?, `start_date`=?, `end_date`=? where ID = ?";
         const values = [
-            req.body.emp_name,
-            req.body.emp_id,
-            req.body.reporting_to,
-            req.body.reporting_to_id,
             req.body.project_name,
             req.body.project_title,
             req.body.description,
             req.body.priority,
             req.body.start_date,
-            req.body.end_date,
-            req.body.status,
+            req.body.end_date, 
         ];
         const id = req.params.id;
 
         db.query(sql, [...values, id], (err, results) => {
             if (!err) {
-                return res.json({ Message: "Success" })
+                if (results.affectedRows > 0) {
+                    return res.json({ Message: "Success" });
+                } else {
+                    return res.json({ Error: "Task not found or no changes made" });
+                }
             } else {
-                res.json({ Error: "Something Wrong!" });
+                return res.json({ Error: "Something went wrong!" });
             }
         })
     },

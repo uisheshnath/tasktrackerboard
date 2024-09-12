@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 import WithTLtask from '../task/WithTLtask';
 import WithoutTLtask from '../task/WithoutTLtask';
 import EditTask from '../task/EditTask';
-import Filter , {Another} from '../../filter/Filter';
+import Filter, { Another } from '../../filter/Filter';
 
 const formatDate = (dateString) => {
     return format(new Date(dateString), 'dd-MMM-yyyy');
@@ -16,11 +16,10 @@ const formatDate = (dateString) => {
 const formatDate2 = (dateString) => {
     return format(new Date(dateString), 'yyyy-MM-dd');
 };
- 
+
 let myurl = process.env.REACT_APP_COMMONURL
 
 const Dnd = () => {
-    const [startDate, setStartDate] = useState(new Date());
     const [todo, setTodo] = useState([])
     const [inprogress, setInprogress] = useState([])
     const [done, setDone] = useState([])
@@ -31,7 +30,7 @@ const Dnd = () => {
     const isEligible = ['hod', 'tr', 'team lead'].includes(user?.designation);
     const [start_date, setStartdate] = useState([]);
     const [end_date, setEnddate] = useState([]);
-    
+
 
     //  For show task
     useEffect(() => {
@@ -75,7 +74,7 @@ const Dnd = () => {
                 if (isEligible) {
                     setProjectrecord(editData)
                 }
-                else{
+                else {
                     setProjectrecord(usereditData)
                 }
             }
@@ -83,22 +82,20 @@ const Dnd = () => {
             .catch((error) => { console.error(error); });
     }, [projectrecord])
 
-    const addTask = () => {  return isEligible ? <WithTLtask record={userrecord} project={projectrecord} user={user} /> : <WithoutTLtask record={userrecord} project={projectrecord} user={user} />}
-     const onEdittask = (event)=>{  
-        setEdittask(event) 
+    const addTask = () => { return isEligible ? <WithTLtask record={userrecord} project={projectrecord} user={user} /> : <WithoutTLtask record={userrecord} project={projectrecord} user={user} /> }
+    const onEdittask = (event) => {
+        setEdittask(event)
         setStartdate(formatDate2(event?.start_date))
         setEnddate(formatDate2(event?.end_date))
-     }
+    }
 
     return (
         <div className="dnd">
-            <Filter />
-            <Another />
-            <EditTask  project={projectrecord} task={edittask}  start_date={start_date} end_date={end_date}/>
+            <EditTask project={projectrecord} task={edittask} start_date={start_date} end_date={end_date} />
             <div className="board">
-                <div className="column boardColumn" id="todo" onDrop={dropIt} onDragOver={allowDrop}>
+                <div className="column boardColumn" id="ToDo" onDrop={dropIt} onDragOver={allowDrop}>
                     <div className="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
-                        <h3 className="mb-0 todo_section fs-6">To Do  </h3>
+                        <h3 className="mb-0 todo_section fs-6" data-info="ToDo">To Do  </h3>
                         <a data-bs-toggle="modal" data-bs-target="#addTodo" aria-current="page" className="progress-area-add-section active" href="#">
                             <i className="fa fa-plus-circle fs-1"></i>
                         </a>
@@ -118,7 +115,7 @@ const Dnd = () => {
                         todo?.map((item, index) => {
                             return (
                                 <>
-                                    <div id={`task-${item.id}`} key={index} className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
+                                    <div id={`${item.id}`} key={index} className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
                                         <div className="card border-0">
                                             <div className="card-header d-flex align-items-center border-bottom">
                                                 <span className="avatar text-bg-primary avatar-lg fs-5">{item?.emp_name.slice(0, 1).toUpperCase()}</span>
@@ -132,7 +129,7 @@ const Dnd = () => {
                                                     </button>
                                                     <ul className="dropdown-menu">
                                                         <li>
-                                                            <a className="dropdown-item"  data-bs-toggle="modal" data-bs-target="#editTask" onClick={()=>{onEdittask(item)}}><i className="fa fa-pencil me-3" ></i>Edit</a>
+                                                            <a className="dropdown-item" data-bs-toggle="modal" data-bs-target="#editTask" onClick={() => { onEdittask(item) }}><i className="fa fa-pencil me-3" ></i>Edit</a>
                                                         </li>
                                                         <li>
                                                             <a className="dropdown-item" onClick={() => deleteCard(item.id)}>
@@ -140,17 +137,17 @@ const Dnd = () => {
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'in-progress')}>
-                                                                <i className="fa fa-arrow-right me-3"></i>Move to In Progress
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'inProgress', item.id)}>
+                                                                <i className="fa fa-arrow-right me-3"></i>Move to inProgress
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'todo')}>
-                                                                <i className="fa fa-arrow-left me-3"></i>Move to To-Do
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'ToDo',  item.id)}>
+                                                                <i className="fa fa-arrow-left me-3"></i>Move to ToDo
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'done')}>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'Done',  item.id)}>
                                                                 <i className="fa fa-check me-3"></i>Move to Done
                                                             </a>
                                                         </li>
@@ -169,10 +166,10 @@ const Dnd = () => {
                                             </div>
                                             <div className="card-footer d-flex align-items-center">
                                                 <p className="mb-0 text-primary p-0 me-auto fw-bold">#{item.id}</p>
-                                                <button className="btn btn-danger rounded-5 me-3" type="button" onClick={removeCard}>
+                                                <button className="btn btn-danger rounded-5 me-3 removeTask" type="button" onClick={removeCard}>
                                                     <i className="fa fa-remove fa-lg"></i>
                                                 </button>
-                                                <button className="btn btn-success rounded-5" type="button" onClick={moveOrder}>
+                                                <button className="btn btn-success rounded-5 aproveTask" type="button" onClick={moveOrder}>
                                                     <i className="fa fa-check fa-lg"></i>
                                                 </button>
                                             </div>
@@ -205,7 +202,7 @@ const Dnd = () => {
                                             </a>
                                         </li>
                                         <li>
-                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'in-progress')}>
+                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'inProgress')}>
                                                 <i className="fa fa-arrow-right me-3"></i>Move to In Progress
                                             </a>
                                         </li>
@@ -263,7 +260,7 @@ const Dnd = () => {
                                             <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Delete</a>
                                         </li>
                                         <li>
-                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'in-progress')}>
+                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'inProgress')}>
                                                 <i className="fa fa-arrow-right me-3"></i>Move to In Progress
                                             </a>
                                         </li>
@@ -302,9 +299,9 @@ const Dnd = () => {
                         </div>
                     </div> */}
                 </div>
-                <div className="column boardColumn" id="in-progress" onDrop={dropIt} onDragOver={allowDrop}>
+                <div className="column boardColumn" id="inProgress" onDrop={dropIt} onDragOver={allowDrop}>
                     <div className="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
-                        <h3 className="mb-0 todo_section fs-6">In Progress</h3>
+                        <h3 className="mb-0 todo_section fs-6" data-info="inProgress">In Progress</h3>
                     </div>
                     {/* <div id="task-3" className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
                         <div className="card  border-0 cards_progress_bay">
@@ -326,7 +323,7 @@ const Dnd = () => {
                                             <a className="dropdown-item" href="#"><i className="fa fa-trash me-3"></i>Delete</a>
                                         </li>
                                         <li>
-                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'in-progress')}>
+                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'inProgress')}>
                                                 <i className="fa fa-arrow-right me-3"></i>Move to In Progress
                                             </a>
                                         </li>
@@ -367,7 +364,7 @@ const Dnd = () => {
                         inprogress?.map((item, index) => {
                             return (
                                 <>
-                                    <div id={`task-${item.id}`} key={index} className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
+                                    <div id={`${item.id}`} key={index} className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
                                         <div className="card border-0">
                                             <div className="card-header d-flex align-items-center border-bottom">
                                                 <span className="avatar text-bg-primary avatar-lg fs-5">{item?.emp_name.slice(0, 1).toUpperCase()}</span>
@@ -389,17 +386,17 @@ const Dnd = () => {
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'in-progress')}>
-                                                                <i className="fa fa-arrow-right me-3"></i>Move to In Progress
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'inProgress', item.id)}>
+                                                                <i className="fa fa-arrow-right me-3"></i>Move to inProgress
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'todo')}>
-                                                                <i className="fa fa-arrow-left me-3"></i>Move to To-Do
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'ToDo' ,  item.id)}>
+                                                                <i className="fa fa-arrow-left me-3"></i>Move to ToDo
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'done')}>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'Done' ,  item.id)}>
                                                                 <i className="fa fa-check me-3"></i>Move to Done
                                                             </a>
                                                         </li>
@@ -418,10 +415,10 @@ const Dnd = () => {
                                             </div>
                                             <div className="card-footer d-flex align-items-center">
                                                 <p className="mb-0 text-primary p-0 me-auto fw-bold">#{item.id}</p>
-                                                <button className="btn btn-danger rounded-5 me-3" type="button" onClick={removeCard}>
+                                                <button className="btn btn-danger rounded-5 me-3 removeTask" type="button" onClick={removeCard}>
                                                     <i className="fa fa-remove fa-lg"></i>
                                                 </button>
-                                                <button className="btn btn-success rounded-5" type="button" onClick={moveOrder}>
+                                                <button className="btn btn-success rounded-5 aproveTask" type="button" onClick={moveOrder}>
                                                     <i className="fa fa-check fa-lg"></i>
                                                 </button>
                                             </div>
@@ -432,15 +429,15 @@ const Dnd = () => {
                         })
                     }
                 </div>
-                <div className="column boardColumn" id="done" onDrop={dropIt} onDragOver={allowDrop}>
+                <div className="column boardColumn" id="Done" onDrop={dropIt} onDragOver={allowDrop}>
                     <div className="progress_board_heading d-flex justify-content-between align-items-center p-2 gap-20">
-                        <h3 className="mb-0 todo_section fs-6">Done</h3>
+                        <h3 className="mb-0 todo_section fs-6" data-info="Done">Done</h3>
                     </div>
                     {
                         done?.map((item, index) => {
                             return (
                                 <>
-                                    <div id={`task-${item.id}`} key={index} className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
+                                    <div id={`${item.id}`} key={index} className="task-card task_status_card" draggable="true" onDragStart={dragStart}>
                                         <div className="card border-0">
                                             <div className="card-header d-flex align-items-center border-bottom">
                                                 <span className="avatar text-bg-primary avatar-lg fs-5">{item?.emp_name.slice(0, 1).toUpperCase()}</span>
@@ -462,17 +459,17 @@ const Dnd = () => {
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'in-progress')}>
-                                                                <i className="fa fa-arrow-right me-3"></i>Move to In Progress
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'inProgress', item.id)}>
+                                                                <i className="fa fa-arrow-right me-3"></i>Move to inProgress
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'todo')}>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'ToDo', item.id)}>
                                                                 <i className="fa fa-arrow-left me-3"></i>Move to To-Do
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'done')}>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'Done' , item.id)}>
                                                                 <i className="fa fa-check me-3"></i>Move to Done
                                                             </a>
                                                         </li>
@@ -491,10 +488,10 @@ const Dnd = () => {
                                             </div>
                                             <div className="card-footer d-flex align-items-center">
                                                 <p className="mb-0 text-primary p-0 me-auto fw-bold">#{item.id}</p>
-                                                <button className="btn btn-danger rounded-5 me-3" type="button" onClick={removeCard}>
+                                                <button className="btn btn-danger rounded-5 me-3 removeTask" type="button" onClick={removeCard}>
                                                     <i className="fa fa-remove fa-lg"></i>
                                                 </button>
-                                                <button className="btn btn-success rounded-5" type="button" onClick={moveOrder}>
+                                                <button className="btn btn-success rounded-5 aproveTask" type="button" onClick={moveOrder}>
                                                     <i className="fa fa-check fa-lg"></i>
                                                 </button>
                                             </div>
@@ -522,24 +519,26 @@ function dragStart(ev) {
 
 function dropIt(ev) {
     ev.preventDefault();
-    const data = ev.dataTransfer.getData("text/plain");
+    const data = ev.dataTransfer.getData("text/plain"); 
     const draggedElement = document.getElementById(data);
     let columnHeading;
-
     if (ev.target.className.includes("column")) {
         ev.target.appendChild(draggedElement);
-        columnHeading = ev.target.querySelector(".progress_board_heading h3").textContent.trim();
-        alert(`Task moved to "${columnHeading}"`);
+        columnHeading = ev.target.querySelector(".progress_board_heading h3").dataset.info;
+        axios.patch(`${myurl}/api/myupdate/${data}`, { status: columnHeading })
+        .then(response => { console.log(`Task moved to "${columnHeading}" successful` );})
+        .catch(error => {   console.error(error);  }); 
     } else if (ev.target.className.includes("task-card")) {
         ev.target.parentElement.appendChild(draggedElement);
-        columnHeading = ev.target.parentElement.querySelector(".progress_board_heading h3").textContent.trim();
-        alert(`Task moved to "${columnHeading}"`);
+        columnHeading = ev.target.parentElement.querySelector(".progress_board_heading h3").dataset.info;
+        axios.patch(`${myurl}/api/myupdate/${data}`, { status: columnHeading })
+        .then(response => {   console.log(`Task moved to "${columnHeading}" successful`);})
+        .catch(error => {   console.error(error);  }); 
     }
 
     const moveButton = draggedElement.querySelector('.btn-success');
-
     const currentColumn = draggedElement.closest('.boardColumn').id;
-    if (currentColumn !== 'done') {
+    if (currentColumn !== 'Done') {
         moveButton.removeAttribute('disabled');
         moveButton.classList.remove('disabled');
         console.log(`Moved task to "${columnHeading}" and re-enabled the button`);
@@ -554,7 +553,8 @@ function moveOrder(event) {
     const taskCard = button.closest('.task-card');
     const currentColumn = taskCard.closest('.boardColumn');
     const currentMoveValue = currentColumn.id;
-    const moveOrder = ['todo', 'in-progress', 'done'];
+    console.log(currentMoveValue , currentColumn)
+    const moveOrder = ['ToDo', 'inProgress', 'Done'];
     const currentIndex = moveOrder.indexOf(currentMoveValue);
     let targetIndex = currentIndex + 1;
 
@@ -566,7 +566,7 @@ function moveOrder(event) {
             destinationElement.appendChild(taskCard);
             console.log(`Moved task from ${currentMoveValue} to ${targetState}`);
 
-            if (targetState === 'done') {
+            if (targetState === 'Done') {
                 button.setAttribute('disabled', 'true');
                 button.classList.add('disabled');
             }
@@ -578,29 +578,60 @@ function moveOrder(event) {
     }
 }
 
-function moveOrderToSpecificColumn(event, targetState) {
+function moveOrderToSpecificColumn(event, targetState, id) {
     event.preventDefault();
-
     const taskCard = event.currentTarget.closest('.task-card');
     const destinationElement = document.getElementById(targetState);
+    axios.patch(`${myurl}/api/myupdate/${id}`, { status: targetState })
+        .then(response => {
+            if (response.data.Message === "Success") {
+                if (destinationElement) {
+                    destinationElement.appendChild(taskCard);
+                    console.log(`Moved task to ${targetState}`);
+                    const moveButton = taskCard.querySelector('.btn-success');
+                    if (targetState === 'Done') {
+                        moveButton.setAttribute('disabled', 'true');
+                        moveButton.classList.add('disabled');
+                    } else {
+                        moveButton.removeAttribute('disabled');
+                        moveButton.classList.remove('disabled');
+                    }
+                } else {
+                    console.warn(`Destination with ID ${targetState} not found.`);
+                }
+            }
+            else {
+                console.log(response.data.Error);
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
 
-    if (destinationElement) {
-        destinationElement.appendChild(taskCard);
-        console.log(`Moved task to ${targetState}`);
 
-        const moveButton = taskCard.querySelector('.btn-success');
-
-        if (targetState === 'done') {
-            moveButton.setAttribute('disabled', 'true');
-            moveButton.classList.add('disabled');
-        } else {
-            moveButton.removeAttribute('disabled');
-            moveButton.classList.remove('disabled');
-        }
-    } else {
-        console.warn(`Destination with ID ${targetState} not found.`);
-    }
 }
+// function moveOrderToSpecificColumn(event, targetState) {
+//     event.preventDefault();
+//     const taskCard = event.currentTarget.closest('.task-card');
+//     const destinationElement = document.getElementById(targetState);
+
+//     if (destinationElement) {
+//         destinationElement.appendChild(taskCard);
+//         console.log(`Moved task to ${targetState}`);
+
+//         const moveButton = taskCard.querySelector('.btn-success');
+
+//         if (targetState === 'done') {
+//             moveButton.setAttribute('disabled', 'true');
+//             moveButton.classList.add('disabled');
+//         } else {
+//             moveButton.removeAttribute('disabled');
+//             moveButton.classList.remove('disabled');
+//         }
+//     } else {
+//         console.warn(`Destination with ID ${targetState} not found.`);
+//     }
+// }
 
 function removeCard(event) {
     const taskCard = event.currentTarget.closest('.task-card');
@@ -613,19 +644,19 @@ function removeCard(event) {
 // Delete Task Card
 function deleteCard(event) {
     const confirmDel = window.confirm("Are you sure you want to delete?")
-    if(confirmDel){
-    axios.delete(`${myurl}/api/deletetask/${event}`)
-        .then(response => {
-            if (response.data.Message === "Success") { 
-                window.location.reload()
-              }
-              else {
-                console.log(response.data.Error);
-              }
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    if (confirmDel) {
+        axios.delete(`${myurl}/api/deletetask/${event}`)
+            .then(response => {
+                if (response.data.Message === "Success") {
+                    window.location.reload()
+                }
+                else {
+                    console.log(response.data.Error);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 }
 

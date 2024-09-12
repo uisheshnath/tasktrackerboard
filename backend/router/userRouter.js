@@ -16,7 +16,7 @@ Router.delete('/api/deleteproject/:id',projectController.deleteprojectinformatio
 // task information & controller 
 Router.get('/api/task', taskController.gettaskinformation)
 Router.post('/api/addtask', taskController.addtaskinformation)
-Router.put('/api/edittask/:id',taskController.edittaskinformation)
+Router.patch('/api/edittask/:id',taskController.edittaskinformation)
 Router.delete('/api/deletetask/:id',taskController.deletetaskinformation)
 Router.patch('/api/myupdate/:id',taskController.myupdate )
 
