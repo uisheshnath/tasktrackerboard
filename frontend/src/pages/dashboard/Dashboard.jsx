@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { Navigate } from 'react-router-dom'
+import axios from 'axios' 
 import Projects from '../../components/home/projects/Projects'
 import Notifications from '../../components/home/notifications/Notifications'
-import Dnd from '../../components/home/dnd/Dnd'
-import Heirarchy from '../heirarchy/Heirarchy'
+import Dnd from '../../components/home/dnd/Dnd' 
 let myurl = process.env.REACT_APP_COMMONURL
 
 const Dashboard = () => {
@@ -48,7 +46,7 @@ const Dashboard = () => {
     let designation = (message.user.designation).toLowerCase()
     switch (designation) {
       case 'intern':
-        return <Employee />
+        return <Interns />
       case "junior":
         return <Employee />
       case "mid":
@@ -73,18 +71,16 @@ const Dashboard = () => {
         auth ?
           <>
             <br />
-            <h2>Hi {message.user.emp_name}</h2>
+            {/* <h2>Hi  {message.user.emp_name}</h2> */}
             {renderDayContent()}
             <p>{JSON.stringify(message)}</p>
-            <button className='logoutbtn' onClick={handleLogout}>Logout</button>
+            {/* <button className='logoutbtn' onClick={handleLogout}>Logout</button> */}
           </>
           :
           <>
             <p>You Are Not Authorised {JSON.stringify(message)}</p>
           </>
       }
-
-
     </>
   )
 }
@@ -93,10 +89,12 @@ const Dashboard = () => {
 // For Employee Access
 const Employee = () => {
   return (
-    <> 
-      <div className="container-fluid px-3">
-        <div className="row">
-          <Dnd />
+    <>
+      <div className='Employee_Desk Viewer'>
+        <div className="container-fluid px-3 ">
+          <div className="row" >
+            <Dnd />
+          </div>
         </div>
       </div>
     </>
@@ -107,17 +105,19 @@ const Employee = () => {
 const TLead = () => {
   return (
     <>
-      <div className="container-fluid px-3">
-        <div className="my-3">
-          <div className="row">
-            <Projects />
-            <Notifications />
+      <div className="TL_Desk auther">
+        <div className="container-fluid px-3">
+          <div className="my-3">
+            <div className="row">
+              <Projects />
+              <Notifications />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="container-fluid px-3">
-        <div className="row">
-          <Dnd />
+        <div className="container-fluid px-3">
+          <div className="row">
+            <Dnd />
+          </div>
         </div>
       </div>
     </>
@@ -129,17 +129,19 @@ const TLead = () => {
 const HODs = () => {
   return (
     <>
-      <div className="container-fluid px-3">
-        <div className="my-3">
-          <div className="row">
-            <Projects />
-            <Notifications />
+      <div className="HOd_Desk auther">
+        <div className="container-fluid px-3 HOd_Desk">
+          <div className="my-3">
+            <div className="row">
+              <Projects />
+              <Notifications />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="container-fluid px-3">
-        <div className="row">
-          <Dnd />
+        <div className="container-fluid px-3">
+          <div className="row">
+            <Dnd />
+          </div>
         </div>
       </div>
     </>
@@ -151,17 +153,19 @@ const HODs = () => {
 const TRs = () => {
   return (
     <>
-      <div className="container-fluid px-3">
-        <div className="my-3">
-          <div className="row">
-            <Projects />
-            <Notifications />
+      <div className="TRs_Desk auther">
+        <div className="container-fluid px-3 ">
+          <div className="my-3">
+            <div className="row">
+              <Projects />
+              <Notifications />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="container-fluid px-3">
-        <div className="row">
-          <Dnd />
+        <div className="container-fluid px-3">
+          <div className="row">
+            <Dnd />
+          </div>
         </div>
       </div>
     </>
@@ -172,9 +176,11 @@ const TRs = () => {
 const Interns = () => {
   return (
     <>
-      <div className="container-fluid px-3">
-        <div className="row">
-          <Dnd />
+      <div className="Interns_Desk Viewer">
+        <div className="container-fluid px-3">
+          <div className="row">
+            <Dnd />
+          </div>
         </div>
       </div>
     </>
