@@ -86,7 +86,8 @@ const Signup = () => {
     };
 
     const handleEmailBlur = () => {
-        const emailRegex = /^[\w]*@*[a-z]*\.*[\w]{5,}(\.)*(com)*(@gmail\.com)?$/;
+        const emailRegex = /^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z]+\.[a-zA-Z]{2,}$/
+
         if (!emailRegex.test(formData.email)) {
             setErrors(prevErrors => ({
                 ...prevErrors,
@@ -123,8 +124,7 @@ const Signup = () => {
         }
         else {
             axios.post(`${myurl}/api/register`, { emp_name, emp_id, emp_email, emp_password, reporting_to, reporting_to_id, designation, department })
-                .then((response) => {
-                    console.log(response.data.Error);
+                .then((response) => { 
                     if (response.data.Status === 'Success') {
                         toast.success('Profile created successfully!', {
                             position: "top-right",
@@ -134,12 +134,12 @@ const Signup = () => {
                             pauseOnHover: true,
                             draggable: true,
                             progress: undefined,
-                            style: { backgroundColor: '#28a745', color: '#000' },
+                            style: { backgroundColor: '#2196f3', color: '#ffffff' },
                             progressStyle: { backgroundColor: '#ffc107' }
                         });
-                        setTimeout(() => {
-                            navigate("/");
-                        }, 1500);
+                        setTimeout(()=>{
+                            navigate('/')
+                        },1500)
                     } else {
                         toast.error(response.data.Error, {
                             position: "top-right",
@@ -149,7 +149,8 @@ const Signup = () => {
                             pauseOnHover: true,
                             draggable: true,
                             progress: undefined,
-                            style: { backgroundColor: '#dc3545', color: '#fff' },
+                            style: { backgroundColor: '#6e5dc6', color: '#fff' },
+                            progressStyle: { backgroundColor: '#2196f3',opacity: '1'  }
                         });
                     }
                 })
@@ -157,53 +158,21 @@ const Signup = () => {
                     console.error(error);
                     toast.error("Registration Failed", {
                         position: "top-right",
-                        autoClose: 3000,
+                        autoClose: 1500,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,
                         draggable: true,
                         progress: undefined,
-                        style: { backgroundColor: '#dc3545', color: '#fff' },
+                        style: { backgroundColor: '#6e5dc6', color: '#fff' },
+                        progressStyle: { backgroundColor: '#2196f3',opacity: '1' }
                     });
                 });
 
         }
 
     };
-    // useEffect(() => {
-    //     if (showToast) {
-    //         const interval = setInterval(() => {
-    //             setProgress((prevProgress) => prevProgress - 1);
-    //         }, 30);
-
-    //         setTimeout(() => {
-    //             setShowToast(false);
-    //             clearInterval(interval);
-    //         }, 3000);
-    //     }
-    // }, [showToast]);
-
-    // const notifyWarning = (e) => {
-    //     e.preventDefault();
-
-    //     toast.warn('This is a warning!', {
-    //         position: "top-right",
-    //         autoClose: 1500,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         style: {
-    //             backgroundColor: 'orange',
-    //             color: 'black'
-    //         },
-    //         progressStyle: {
-    //             backgroundColor: 'yellow'
-    //         }
-    //     });
-
-    // };
+  
 
 
     return (
@@ -211,15 +180,15 @@ const Signup = () => {
             <div className="container-fluid bg-primary">
                 <div className="container">
                     <div className="row d-flex vh-100 align-items-center">
-                        <div className="col-md-6 text-light">
+                        <div className="col-lg-6 col-md-12 col-sm-12 text-light">
                             <img src={process.env.PUBLIC_URL + 'assets/img/logoicon.png'} alt="Icon" className='mb-4' style={{ width: '50px' }} />
-                            <h2 className="card-title mb-2 fw-semibold">Task Tracker Board</h2>
+                            <h2 className="card-title mb-2 fw-semibold text-start">Task Tracker Board</h2>
                             <h4 className="card-title mb-3 fw-lighter lh-base">Making the daily tasks and project updates maintaining easy and properly trackable</h4>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-lg-6 col-md-12 col-sm-12">
                             <div className="card rounded-5">
                                 <div className="card-body p-12">
-                                    <h2 className="card-title">Sign Up</h2>
+                                    <h2 className="card-title text-start">Sign Up</h2>
                                     <p className="card-text">Already have an account? <NavLink to={'/'}>Sign In</NavLink>
                                         {/* <a href="/" onClick={notifyWarning}>404</a> */}
                                     </p>
@@ -410,32 +379,9 @@ const Signup = () => {
                     </div>
                 </div>
             </div>
-
-            {/* <button onClick={notifyWarning}>Show Warning Toast</button> */}
             <ToastContainer />
 
-            {/* <div className={`toast-container top-0 end-0 p-3`} style={{ position: 'fixed', zIndex: 1050 }}>
-                <div className={`toast ${showToast ? 'show' : 'hide'} fade`} role="alert" aria-live="assertive" aria-atomic="true">
-                    <div className="toast-body" style={{ backgroundColor: '#28a745', color: '#000' }}>
-                        <div className="d-flex gap-4">
-                            <div className="d-flex flex-grow-1 align-items-center">
-                                <span className="fw-semibold">Profile created successfully!</span>
-                                <button type="button" className="btn-close btn-close-sm ms-auto" aria-label="Close" onClick={() => setShowToast(false)}></button>
-                            </div>
-                        </div>
-                        <div className="progress mt-2" style={{ height: '5px' }}>
-                            <div
-                                className="progress-bar"
-                                role="progressbar"
-                                style={{ width: `${progress}%`, backgroundColor: '#ffc107' }}
-                                aria-valuenow={progress}
-                                aria-valuemin="0"
-                                aria-valuemax="100"
-                            ></div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
+         
 
         </>
     );

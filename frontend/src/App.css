@@ -51,23 +51,10 @@ a:hover {
 }
 /* -------------Scrollbar--------------- */
 
-
-/* Few Styling for finishing */
-
-.Viewer #inProgress .removeTask , .Viewer #Done .removeTask{
-display: none;
+.auther ::-webkit-scrollbar {
+  display: none;
 }
-
-.Viewer .dropdown-menu li {
-  display: none; /* Hide all list items */
+.Toastify__progress-bar--success {
+  background: #0b66e4 !important;
+  opacity: 1;
 }
-
-.Viewer .dropdown-menu li:nth-child(1),
-.Viewer .dropdown-menu li:nth-child(2) {
-  display: list-item; /* Show the first two list items */
-}
-.Viewer #ToDo .task-card {pointer-events: none;}
-.Viewer #ToDo .dropstart{pointer-events: all;}
-.Viewer .card-footer .removeTask{pointer-events: all;}
-
-.auther #inProgress .removeTask  , .auther #Done .removeTask{ display: none;}

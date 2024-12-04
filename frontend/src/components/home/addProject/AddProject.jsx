@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from "axios"
 // import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -32,29 +32,18 @@ const AddProject = () => {
     const [stagingadmin, setStagingadmin] = useState(" ")
     const [production, setProduction] = useState(" ")
     const [productionadmin, setProductionadmin] = useState(" ")
+    const [options, setOptions] = useState([])
 
-    let values=[username,userid,pname, pinformation, manager, managerid, coordinator, coordinatorid, btype, website, upcomingRelease,
+    let values = [username, userid, pname, pinformation, manager, managerid, coordinator, coordinatorid, btype, website, upcomingRelease,
         currentRelease, closedRelease, assignees, dev, devadmin, testing, testingadmin, staging, stagingadmin, production, productionadmin]
     // console.dir(values)
+
+    // console.log(userid)
 
     // const [inputValue, setInputValue] = useState('');
     // const [filteredSuggestions, setFilteredSuggestions] = useState([]);
     // const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
-    const options = ["Ben", "Gwen", "Grandpa", "Omnitrix"];
-    // const handleInputChange = (e) => {
-    //     const value = e.target.value;
-    //     setInputValue(value);
-    //     if (value) {
-    //         const filtered = options.filter(suggestion =>
-    //             suggestion.toLowerCase().includes(value.toLowerCase())
-    //         );
-    //         setFilteredSuggestions(filtered);
-    //         setActiveSuggestionIndex(0);
-    //     } else {
-    //         setFilteredSuggestions([]);
-    //     }
-    // };
-
+    // const options = ["Ben", "Gwen", "Grandpa", "Omnitrix"];
 
     const handleSelectChange = (e) => {
         const value = e.target.value;
@@ -67,11 +56,11 @@ const AddProject = () => {
         setAssignees(assignees.filter(assignee => assignee !== value));
     };
 
-    const handleSubmit = async (e) => { 
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Prepare the data
-        const dataValues = { 
+        const dataValues = {
             user_name: username,
             user_id: userid,
             project_name: pname,
@@ -95,7 +84,7 @@ const AddProject = () => {
             production: production,
             production_admin: productionadmin
         };
-    
+
         try {
             const response = await axios.post(`${myurl}/api/addproject`, dataValues, {
                 headers: {
@@ -103,14 +92,14 @@ const AddProject = () => {
                     // Add any other headers if needed
                 }
             });
-            if(response.data.Message === "Success"){
+            if (response.data.Message === "Success") {
                 console.log('Data posted successfully:', response.data);
                 window.location.reload()
             }
-            else{
+            else {
                 console.log('Error posting data:', response.data);
             }
-            
+
             // window.location.reload()
         } catch (error) {
             console.error('Error posting data:', error);
@@ -119,6 +108,18 @@ const AddProject = () => {
     }
 
 
+
+    useEffect(() => {
+        axios.get(`${myurl}/api/myuser`)
+            .then(response => {
+                let theData = response.data;
+                let filtResult = theData.filter(item => item.reporting_to_id === userid);                
+                setOptions(filtResult)
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+            });
+    }, [options])
 
 
 
@@ -176,7 +177,7 @@ const AddProject = () => {
                                         <div className="row mb-3">
                                             <label htmlFor="projectName" className="text-start col-12 col-md-4 col-form-label">Project Name</label>
                                             <div className="col-12 col-md-8">
-                                                <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name" onChange={(e) => { setPname(e.target.value) }}   required />
+                                                <input type="text" className="form-control" id="projectName" placeholder="Enter Project Name" onChange={(e) => { setPname(e.target.value) }} required />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
@@ -199,7 +200,7 @@ const AddProject = () => {
                                             <div className="col-12 col-md-8">
                                                 <div className="input-group">
                                                     <input type="text" aria-label="First name" placeholder="Emp ID" className="form-control" onChange={(e) => { setCoordinatorid(e.target.value) }} />
-                                                    <input type="text" aria-label="Last name" placeholder="Name" className="form-control" onChange={(e) => { setCoordinator(e.target.value) }}/>
+                                                    <input type="text" aria-label="Last name" placeholder="Name" className="form-control" onChange={(e) => { setCoordinator(e.target.value) }} />
                                                 </div>
                                             </div>
                                         </div>
@@ -278,8 +279,8 @@ const AddProject = () => {
                                             {options
                                                 .filter(option => !assignees.includes(option))
                                                 .map((option, index) => (
-                                                    <option key={index} value={option}>
-                                                        {option}
+                                                    <option key={index} value={option?.emp_name}>
+                                                        {option?.emp_name}
                                                     </option>
                                                 ))}
                                         </select>

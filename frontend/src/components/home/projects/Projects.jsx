@@ -18,12 +18,27 @@ const Projects = () => {
     const [sender, setSender] = useState(undefined);
     const [projectfunck, setProjectfunck] = useState(undefined);
     const { user } = useContext(UserContext);
+    console.log(user?.designation , user?.department)
 
     useEffect(() => {
         axios.get(`${myurl}/api/project`)
             .then(response => {
-                const filterResult = (response.data)?.filter(item => item.user_id === (user?.emp_id));
-                setFilter(filterResult);
+                if((user?.designation=="HOD" && user?.department=="Frontend") || (user?.designation=="HOD" && user?.department=="Backend") || (user?.designation=="HOD" && user?.department=="Testing") ){
+                    setFilter(response.data);
+                }
+
+                if(user?.designation=="Team Lead" && user?.department=="Frontend"){
+                    const filterResult = (response.data)?.filter(item => item.user_id === (user?.emp_id));
+                    setFilter(filterResult);
+                }
+                else{
+                     const filterResult = (response.data)?.filter(item => item.user_id === (user?.emp_id));
+                     setFilter(filterResult);
+                }   
+
+                // const filterResult = (response.data)?.filter(item => item.user_id === (user?.emp_id));
+                // setFilter(filterResult);
+                // console.log(response.data) 
             })
             .catch(error => console.error(error));
     }, [user]);

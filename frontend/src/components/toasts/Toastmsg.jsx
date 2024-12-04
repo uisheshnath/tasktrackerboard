@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Toastmsg = ({ type, message, show, onClose }) => {
   useEffect(() => {
-    if (type === 'success') {
+    if (type == 'Success') {
       toast.success(message, {
         position: "top-right",
         autoClose: 1500,
@@ -16,7 +16,7 @@ const Toastmsg = ({ type, message, show, onClose }) => {
         style: { backgroundColor: '#28a745', color: '#000' },
         progressStyle: { backgroundColor: '#ffc107' },
       });
-    } else if (type === 'error') {
+    } else if (type =='Error') {
       toast.error(message, {
         position: "top-right",
         autoClose: 1500,
@@ -25,7 +25,7 @@ const Toastmsg = ({ type, message, show, onClose }) => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        style: { backgroundColor: '#dc3545', color: '#fff' },
+        style: { backgroundColor: '#dc3545', color: 'red' },
       });
     }
   }, [type, message]);

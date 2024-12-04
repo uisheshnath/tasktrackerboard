@@ -17,6 +17,7 @@ function WithTLtask(props) {
   let project = props.project
   let user = props.user
 
+  // console.log(data)
   // console.log(user)
   // filter Duplicate user
   const handleSubmit = (e) => {
@@ -119,9 +120,9 @@ function WithTLtask(props) {
             <label htmlFor="taskPriority" className="form-label">Priority</label>
             <select className="form-select" id="taskPriority" onChange={(e) => { setPriority(e.target.value) }} required >
               <option value='' >select priority</option>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
             </select>
           </div>
           <div className="mb-3">

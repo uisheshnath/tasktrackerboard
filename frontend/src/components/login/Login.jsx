@@ -3,22 +3,21 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Cookies from "js-cookie"
 import Toastmsg from '../toasts/Toastmsg'; 
+import Errortostmsg from '../toasts/Errortostmsg';
+
 
 let myurls = process.env.REACT_APP_COMMONURL
-
-
 
 const Login = () => {
     const navigate = useNavigate();
     const [emp_email, setEmail] = useState()
     const [emp_password, setPassword] = useState()
     const [terms, setTerms] = useState(null)
-    const [showToast, setShowToast] = useState(false);
-    const [logauth, setLogauth] = useState()
+    const [showToast, setShowToast] = useState(false); 
+    const [errtoastMsg, setErrtoastMsg] = useState(false);
+    const [msgtoastMsg, setMsgtoastMsg] = useState([]);
+    axios.defaults.withCredentials = true; 
 
-    axios.defaults.withCredentials = true;
-    //    console.log(logauth)
-    // console.log(terms, myurls)
     const handleSubmit = (e) => {
         e.preventDefault()
         axios.post(`${myurls}/api/login`, { emp_email, emp_password })
@@ -27,16 +26,21 @@ const Login = () => {
                     setShowToast(true);
                     let encriptData = window.btoa(res.data.token)
                     localStorage.setItem("auth_verify_token", encriptData)
-
                     setTimeout(() => {
                         navigate('/dashboard')
                     }, 1000);
                 } else {
-                    console.log(res.data.Error);
+                    console.log(res.data.Error); 
+                    setErrtoastMsg(true) 
+                    setMsgtoastMsg(res.data.Error)   
                 }
             })
-            .catch((err) => { console.log(err) })
-    }
+            .catch((err) => {
+                 console.log(err)
+                 setErrtoastMsg(true) 
+                 setMsgtoastMsg(err.message)
+                 })
+            }
 
     useEffect(() => {
         try {
@@ -59,20 +63,21 @@ const Login = () => {
 
     return (
         <>
+       
             <div className="container-fluid bg-primary">
                 <div className="container">
                     <div className="row d-flex vh-100 align-items-center">
-                        <div className="col-md-6 text-light">
+                        <div className="col-lg-6 col-md-12 col-sm-12 text-light">
                             <img src={process.env.PUBLIC_URL + 'assets/img/logoicon.png'} alt="Icon" className='mb-4' style={{ width: '50px' }} />
-                            <h2 className="card-title mb-2 fw-semibold">Task Tracker Board</h2>
+                            <h2 className="card-title mb-2 fw-semibold text-start">Task Tracker Board</h2>
                             <h4 className="card-title mb-3 fw-lighter lh-base">Making the daily tasks and project updates maintaining easy and properly trackable</h4>
                             {/* <p className="card-text fw-light">This is designed for the leads to update and track their team's daily tasks efficiently. This tool allows easy task assignment, deadline setting, and real-time progress updates, ensuring clear communication and improved team productivity.</p> */}
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-lg-6 col-md-12 col-sm-12">
                             <div className="card rounded-5">
                                 <div className="card-body p-12">
-                                    <h2 className="card-title">Sign In</h2>
-                                    <p className="card-text">Don't have an account? <NavLink to={'/signup'}>Sign Up</NavLink></p>
+                                    <h2 className="card-title text-start">Sign In</h2>
+                                    <p className="card-text text-start">Don't have an account? <NavLink to={'/signup'}>Sign Up</NavLink></p>
                                     <form action="" onSubmit={handleSubmit}>
                                         <div className="form-floating mb-3">
                                             <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" onChange={(e) => setEmail(e.target.value)} required />
@@ -103,9 +108,11 @@ const Login = () => {
             </div>
 
             <Toastmsg show={showToast} message="Logged in successfully!" onClose={() => setShowToast(false)} />
+            <Errortostmsg show={errtoastMsg} type="Success" message={msgtoastMsg} onClose={() => setErrtoastMsg(false)} />
                 
         </>
     )
 }
 
+ 
 export default Login

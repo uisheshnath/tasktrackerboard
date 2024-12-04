@@ -48,7 +48,7 @@ h2 {
 .cover-photo {
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 300px;
     background-color: #e0e0e0;
     border-radius: 8px;
     overflow: hidden;
@@ -57,7 +57,7 @@ h2 {
 .cover-photo-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: fill;
 }
 
 .delete-btn {
@@ -93,8 +93,8 @@ h2 {
     position: absolute;
     bottom: -50px;
     left: 50px;
-    width: 180px;
-    height: 180px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     overflow: hidden;
     border: 6px solid #fff;
@@ -118,7 +118,7 @@ h2 {
 .initial-placeholder {
     width: 100%;
     height: 100%;
-    background-color: #fff;
+    /* background-color: #fff; */
     display: flex;
     justify-content: center;
     align-items: center;

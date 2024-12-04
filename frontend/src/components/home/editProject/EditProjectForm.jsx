@@ -355,7 +355,7 @@ const EditProjectForm = (props) => {
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" className="btn btn-primary">Save Project</button>
+                                    <button type="submit" className="btn btn-primary">Save Changes</button>
                                 </div>
                             </form>
                         </div>

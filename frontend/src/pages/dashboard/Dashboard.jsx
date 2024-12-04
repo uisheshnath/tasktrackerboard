@@ -73,7 +73,7 @@ const Dashboard = () => {
             <br />
             {/* <h2>Hi  {message.user.emp_name}</h2> */}
             {renderDayContent()}
-            <p>{JSON.stringify(message)}</p>
+            {/* <p>{JSON.stringify(message)}</p> */}
             {/* <button className='logoutbtn' onClick={handleLogout}>Logout</button> */}
           </>
           :

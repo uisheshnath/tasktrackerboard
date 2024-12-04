@@ -53,10 +53,11 @@ const Header = () => {
                                 </li>
                             </ul>
                             <div className="profile_notification">
-                                <div className="dropdown">
-                                    <img src={process.env.PUBLIC_URL + 'assets/img/dummy/displaypic.jpeg'} alt="Jhon Doe" className='dropdown-toggle header-profile-pic rounded-5' data-bs-toggle="dropdown" aria-expanded="false" />
+                                <div className="dropdown" style={{cursor:"pointer"}}>
+                                    {/* <img src={process.env.PUBLIC_URL + 'assets/img/dummy/displaypic.jpeg'} alt="Jhon Doe" className='dropdown-toggle header-profile-pic rounded-5 ' data-bs-toggle="dropdown" aria-expanded="false" /> */}
+                                    <div className='dropdown-toggle header-profile-pic rounded-5 ' data-bs-toggle="dropdown" aria-expanded="false" title={user?.emp_name}> {user?.emp_name.slice(0,1)}</div>
                                     <ul className="dropdown-menu dropdown-menu-end">
-                                        <li><NavLink className="dropdown-item" to={'/dashboard'}>{user?.emp_name}</NavLink></li>
+                                        <li><NavLink className="dropdown-item text-capitalize" to={'/dashboard'}>Hi {user?.emp_name}</NavLink></li>
                                         <li><NavLink className="dropdown-item" to={'/profile'}>Settings</NavLink></li>
                                         <li><NavLink className="dropdown-item" onClick={handleLogout}>Sign Out</NavLink></li>
                                     </ul>

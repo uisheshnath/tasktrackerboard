@@ -27,7 +27,7 @@ const Dnd = () => {
     const [projectrecord, setProjectrecord] = useState([])
     const [edittask, setEdittask] = useState([])
     const { user } = useContext(UserContext);
-    const isEligible = ['hod', 'tr', 'team lead'].includes(user?.designation);
+    const isEligible = ['hod', 'tr', 'team lead'].includes((user?.designation)?.toLowerCase());
     const [start_date, setStartdate] = useState([]);
     const [end_date, setEnddate] = useState([]);
 
@@ -45,8 +45,6 @@ const Dnd = () => {
                     setTodo(todoData?.reverse())
                     setInprogress(inprogressData?.reverse())
                     setDone(doneData?.reverse())
-                    setUserrecord(editData?.reverse())
-                    // console.log("You are eligible to edit.", editData);
                 } else {
                     let showData = dataResult.filter((item) => item.emp_id === user?.emp_id)
                     let inprogressData = showData.filter((item) => item.status === "inProgress")
@@ -55,14 +53,32 @@ const Dnd = () => {
                     setTodo(todoData?.reverse())
                     setInprogress(inprogressData?.reverse())
                     setDone(doneData?.reverse())
-                    setUserrecord(showData?.reverse())
-                    // console.log("You are not eligible to edit.",showData);
                 }
             })
             .catch((error) => {
                 console.error(error);
             });
     }, [user]);
+
+
+    useEffect(()=>{
+        axios.get(`${myurl}/api/myuser`)
+        .then((response)=>{
+            let dataResult = response.data;
+            if (isEligible) {
+                let projectData1 = dataResult.filter((item)=>item.reporting_to_id===user?.emp_id)
+                setUserrecord(projectData1?.reverse())
+            }
+            else{
+                let projectData2 = dataResult.filter((item)=>item.emp_id===user?.reporting_to_id)
+                setUserrecord(projectData2?.reverse())
+            }
+            })
+            .catch((error)=>{
+                console.error(error);
+                })
+    },[user])
+
 
     //  For show project
     useEffect(() => {
@@ -142,12 +158,12 @@ const Dnd = () => {
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'ToDo',  item.id)}>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'ToDo', item.id)}>
                                                                 <i className="fa fa-arrow-left me-3"></i>Move to ToDo
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'Done',  item.id)}>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'Done', item.id)}>
                                                                 <i className="fa fa-check me-3"></i>Move to Done
                                                             </a>
                                                         </li>
@@ -157,7 +173,7 @@ const Dnd = () => {
                                             </div>
                                             <div className="card-body">
                                                 <p className='mb-1 fs-sm'><span className='fw-bold'>Task: </span>{item.project_title}</p>
-                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Priority: </span><span className="badge rounded-pill text-bg-danger px-2 py-1">{item.priority}</span></p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Priority: </span><span className={`badge rounded-pill px-2 py-1 ${getPriorityClass(item.priority)}`}>{item.priority}</span></p>
                                                 <p className="card-text fs-sm">
                                                     <span className='fw-bold'>Description: </span>{item.description}
                                                 </p>
@@ -166,12 +182,12 @@ const Dnd = () => {
                                             </div>
                                             <div className="card-footer d-flex align-items-center">
                                                 <p className="mb-0 text-primary p-0 me-auto fw-bold">#{item.id}</p>
-                                                <button className="btn btn-danger rounded-5 me-3 removeTask" type="button" onClick={removeCard}>
+                                                {/* <button className="btn btn-danger rounded-5 me-3 removeTask" type="button" onClick={() => removeCard(item.id)}>
                                                     <i className="fa fa-remove fa-lg"></i>
                                                 </button>
                                                 <button className="btn btn-success rounded-5 aproveTask" type="button" onClick={moveOrder}>
                                                     <i className="fa fa-check fa-lg"></i>
-                                                </button>
+                                                </button> */}
                                             </div>
                                         </div>
                                     </div>
@@ -378,7 +394,7 @@ const Dnd = () => {
                                                     </button>
                                                     <ul className="dropdown-menu">
                                                         <li>
-                                                            <a className="dropdown-item" href="#"><i className="fa fa-pencil me-3"></i>Edit</a>
+                                                            <a className="dropdown-item" data-bs-toggle="modal" data-bs-target="#editTask" onClick={() => { onEdittask(item) }}><i className="fa fa-pencil me-3" ></i>Edit</a>
                                                         </li>
                                                         <li>
                                                             <a className="dropdown-item" onClick={() => deleteCard(item.id)}>
@@ -391,12 +407,12 @@ const Dnd = () => {
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'ToDo' ,  item.id)}>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'ToDo', item.id)}>
                                                                 <i className="fa fa-arrow-left me-3"></i>Move to ToDo
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'Done' ,  item.id)}>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'Done', item.id)}>
                                                                 <i className="fa fa-check me-3"></i>Move to Done
                                                             </a>
                                                         </li>
@@ -406,7 +422,7 @@ const Dnd = () => {
                                             </div>
                                             <div className="card-body">
                                                 <p className='mb-1 fs-sm'><span className='fw-bold'>Task: </span>{item.project_title}</p>
-                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Priority: </span><span className="badge rounded-pill text-bg-danger px-2 py-1">{item.priority}</span></p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Priority: </span><span className={`badge rounded-pill px-2 py-1 ${getPriorityClass(item.priority)}`}>{item.priority}</span></p>
                                                 <p className="card-text fs-sm">
                                                     <span className='fw-bold'>Description: </span>{item.description}
                                                 </p>
@@ -415,12 +431,12 @@ const Dnd = () => {
                                             </div>
                                             <div className="card-footer d-flex align-items-center">
                                                 <p className="mb-0 text-primary p-0 me-auto fw-bold">#{item.id}</p>
-                                                <button className="btn btn-danger rounded-5 me-3 removeTask" type="button" onClick={removeCard}>
+                                                {/* <button className="btn btn-danger rounded-5 me-3 removeTask" type="button" onClick={() => removeCard(item.id)}>
                                                     <i className="fa fa-remove fa-lg"></i>
                                                 </button>
                                                 <button className="btn btn-success rounded-5 aproveTask" type="button" onClick={moveOrder}>
                                                     <i className="fa fa-check fa-lg"></i>
-                                                </button>
+                                                </button> */}
                                             </div>
                                         </div>
                                     </div>
@@ -451,7 +467,7 @@ const Dnd = () => {
                                                     </button>
                                                     <ul className="dropdown-menu">
                                                         <li>
-                                                            <a className="dropdown-item" href="#"><i className="fa fa-pencil me-3"></i>Edit</a>
+                                                        <a className="dropdown-item" data-bs-toggle="modal" data-bs-target="#editTask" onClick={() => { onEdittask(item) }}><i className="fa fa-pencil me-3" ></i>Edit</a>
                                                         </li>
                                                         <li>
                                                             <a className="dropdown-item" onClick={() => deleteCard(item.id)}>
@@ -469,7 +485,7 @@ const Dnd = () => {
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'Done' , item.id)}>
+                                                            <a className="dropdown-item" href="#" onClick={(event) => moveOrderToSpecificColumn(event, 'Done', item.id)}>
                                                                 <i className="fa fa-check me-3"></i>Move to Done
                                                             </a>
                                                         </li>
@@ -479,7 +495,7 @@ const Dnd = () => {
                                             </div>
                                             <div className="card-body">
                                                 <p className='mb-1 fs-sm'><span className='fw-bold'>Task: </span>{item.project_title}</p>
-                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Priority: </span><span className="badge rounded-pill text-bg-danger px-2 py-1">{item.priority}</span></p>
+                                                <p className='mb-1 fs-sm'><span className='fw-bold'>Priority: </span><span className={`badge rounded-pill px-2 py-1 ${getPriorityClass(item.priority)}`}>{item.priority}</span></p>
                                                 <p className="card-text fs-sm">
                                                     <span className='fw-bold'>Description: </span>{item.description}
                                                 </p>
@@ -488,12 +504,12 @@ const Dnd = () => {
                                             </div>
                                             <div className="card-footer d-flex align-items-center">
                                                 <p className="mb-0 text-primary p-0 me-auto fw-bold">#{item.id}</p>
-                                                <button className="btn btn-danger rounded-5 me-3 removeTask" type="button" onClick={removeCard}>
+                                                {/* <button className="btn btn-danger rounded-5 me-3 removeTask" type="button" onClick={() => removeCard(item.id)}>
                                                     <i className="fa fa-remove fa-lg"></i>
                                                 </button>
                                                 <button className="btn btn-success rounded-5 aproveTask" type="button" onClick={moveOrder}>
                                                     <i className="fa fa-check fa-lg"></i>
-                                                </button>
+                                                </button> */}
                                             </div>
                                         </div>
                                     </div>
@@ -506,7 +522,11 @@ const Dnd = () => {
         </div>
     );
 };
-
+const getPriorityClass = (priority) => {
+    if (priority === "Low") return "text-bg-success";
+    if (priority === "Medium") return "text-bg-warning";
+    return "text-bg-danger"; // Default class if none of the conditions match
+};
 // Drag and drop functions
 
 function allowDrop(ev) {
@@ -519,28 +539,28 @@ function dragStart(ev) {
 
 function dropIt(ev) {
     ev.preventDefault();
-    const data = ev.dataTransfer.getData("text/plain"); 
+    const data = ev.dataTransfer.getData("text/plain");
     const draggedElement = document.getElementById(data);
     let columnHeading;
     if (ev.target.className.includes("column")) {
         ev.target.appendChild(draggedElement);
         columnHeading = ev.target.querySelector(".progress_board_heading h3").dataset.info;
         axios.patch(`${myurl}/api/myupdate/${data}`, { status: columnHeading })
-        .then(response => { console.log(`Task moved to "${columnHeading}" successful` );})
-        .catch(error => {   console.error(error);  }); 
+            .then(response => { console.log(`Task moved to "${columnHeading}" successful`); })
+            .catch(error => { console.error(error); });
     } else if (ev.target.className.includes("task-card")) {
         ev.target.parentElement.appendChild(draggedElement);
         columnHeading = ev.target.parentElement.querySelector(".progress_board_heading h3").dataset.info;
         axios.patch(`${myurl}/api/myupdate/${data}`, { status: columnHeading })
-        .then(response => {   console.log(`Task moved to "${columnHeading}" successful`);})
-        .catch(error => {   console.error(error);  }); 
+            .then(response => { console.log(`Task moved to "${columnHeading}" successful`); })
+            .catch(error => { console.error(error); });
     }
 
     const moveButton = draggedElement.querySelector('.btn-success');
     const currentColumn = draggedElement.closest('.boardColumn').id;
     if (currentColumn !== 'Done') {
-        moveButton.removeAttribute('disabled');
-        moveButton.classList.remove('disabled');
+        // moveButton.removeAttribute('disabled');
+        // moveButton.classList.remove('disabled');
         console.log(`Moved task to "${columnHeading}" and re-enabled the button`);
     } else {
         console.log(`Task moved to "${columnHeading}"`);
@@ -553,7 +573,7 @@ function moveOrder(event) {
     const taskCard = button.closest('.task-card');
     const currentColumn = taskCard.closest('.boardColumn');
     const currentMoveValue = currentColumn.id;
-    console.log(currentMoveValue , currentColumn)
+    console.log(currentMoveValue, currentColumn)
     const moveOrder = ['ToDo', 'inProgress', 'Done'];
     const currentIndex = moveOrder.indexOf(currentMoveValue);
     let targetIndex = currentIndex + 1;
@@ -634,18 +654,24 @@ function moveOrderToSpecificColumn(event, targetState, id) {
 // }
 
 function removeCard(event) {
-    const taskCard = event.currentTarget.closest('.task-card');
-    if (taskCard) {
-        taskCard.remove();
-        console.log('Item removed');
-    }
+    const confirmDel = window.confirm("Are you sure you want to delete?")
+    DeleteTask(event, confirmDel)
+    // const taskCard = event.currentTarget.closest('.task-card');
+    // if (taskCard) {
+    //     taskCard.remove();
+    //     console.log('Item removed');
+    // } 
 }
 
 // Delete Task Card
 function deleteCard(event) {
     const confirmDel = window.confirm("Are you sure you want to delete?")
-    if (confirmDel) {
-        axios.delete(`${myurl}/api/deletetask/${event}`)
+    DeleteTask(event, confirmDel)
+}
+
+function DeleteTask(x, y) {
+    if (y) {
+        axios.delete(`${myurl}/api/deletetask/${x}`)
             .then(response => {
                 if (response.data.Message === "Success") {
                     window.location.reload()
