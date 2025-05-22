@@ -2,17 +2,21 @@ const express = require("express")
 const cors = require('cors') 
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser")  
-let port=4000
+require('dotenv').config()
 const userRout = require("./router/userRouter")
 const app = express()
 app.use(express.json()) 
+
+let port=process.env.DB_PORT
 app.use(cors({
-  origin: ["http://localhost:3000"],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  origin: [process.env.FRONTEND_URL],
+  methods: ['GET', 'POST', 'PUT',"PATCH", 'DELETE', 'OPTIONS'],
   credentials: true
 }
 ))
 app.use(cookieParser())
+
+app.use(userRout)
 
 
 // for register
@@ -37,10 +41,6 @@ const verifyUser = (req, res, next) => {
 app.get('/api', verifyUser, (req, res) => {
   return res.json({ Status: "Success", payload: req.payload })
 })
-
-
-app.use(userRout)
-
 
  
 app.listen(port, (req, res) => {

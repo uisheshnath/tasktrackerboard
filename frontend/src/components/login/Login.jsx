@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Cookies from "js-cookie"
+import Toastmsg from '../toasts/Toastmsg'; 
+
 let myurls = process.env.REACT_APP_COMMONURL
-// import Cookies from "js-cookie"
+
+
 
 const Login = () => {
     const navigate = useNavigate();
@@ -10,28 +14,47 @@ const Login = () => {
     const [emp_password, setPassword] = useState()
     const [terms, setTerms] = useState(null)
     const [showToast, setShowToast] = useState(false);
+    const [logauth, setLogauth] = useState()
 
     axios.defaults.withCredentials = true;
-
+    //    console.log(logauth)
     // console.log(terms, myurls)
-
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (terms) {
-            axios.post(`${myurls}/api/login`, { emp_email, emp_password })
-                .then((res) => {
-                    if (res.data.Status === "Success") {
-                        setShowToast(true);
-                        setTimeout(() => { navigate('/') }, 1500);
+        axios.post(`${myurls}/api/login`, { emp_email, emp_password })
+            .then((res) => {
+                if (res.data.Status === "Success") {
+                    setShowToast(true);
+                    let encriptData = window.btoa(res.data.token)
+                    localStorage.setItem("auth_verify_token", encriptData)
 
-                    } else {
-                        console.log(res.data.Error);
-                    }
-                })
-                .catch((err) => { console.log(err) })
-        }
-
+                    setTimeout(() => {
+                        navigate('/dashboard')
+                    }, 1000);
+                } else {
+                    console.log(res.data.Error);
+                }
+            })
+            .catch((err) => { console.log(err) })
     }
+
+    useEffect(() => {
+        try {
+            let mytoken = Cookies.get('token');
+            let gettoken = localStorage.getItem("auth_verify_token")
+            let encipt_token = window.atob(gettoken)
+            if (mytoken === encipt_token) {
+                navigate('/dashboard')
+            }
+            else {
+                console.log("user token is mismatch")
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }, [])
+
+
 
 
     return (
@@ -78,18 +101,9 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <div className={`toast-container top-0 end-0 p-3 `} style={{ position: 'fixed', zIndex: 1050 }}>
-                <div className={`toast ${showToast ? 'show' : 'hide'} fade`} role="alert" aria-live="assertive" aria-atomic="true">
-                    <div className="toast-body text-bg-success">
-                        <div className="d-flex gap-4">
-                            <div className="d-flex flex-grow-1 align-items-center">
-                                <span className="fw-semibold">Logged In successfully!</span>
-                                <button type="button" className="btn-close btn-close-sm btn-close-black ms-auto" aria-label="Close" onClick={() => setShowToast(false)}></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+            <Toastmsg show={showToast} message="Logged in successfully!" onClose={() => setShowToast(false)} />
+                
         </>
     )
 }

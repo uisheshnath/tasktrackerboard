@@ -5,18 +5,18 @@ const mysql = require("mysql")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const cookieParser = require("cookie-parser")
-let port = 4000
+require('dotenv').config(); 
 const salt = 10
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
-
-
+const port = process.env.DB_PORT
+ 
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "user@123",
-    database: "updated_task_tracker_board"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 })
 
 const userController = {
@@ -58,13 +58,8 @@ const userController = {
                     })
                 }  
             })
-            
               
-            
         })
-
-
-
     },
 
     login: (req, res) => {
@@ -77,7 +72,7 @@ const userController = {
 
                 // Compare plaintext password (NOT RECOMMENDED for real applications)
                 if (req.body.emp_password === user.emp_password) {
-                    const payload = {name: user};
+                    const payload = {user};
                     const token = jwt.sign({ payload }, "jwt-secret-key", { expiresIn: '30d' });
                     res.cookie("token", token);
                     return res.json({ Status: "Success" , token });
@@ -90,10 +85,7 @@ const userController = {
             }
         });
     },
-
-    // userverify: (req, res) => {
-    //     return  res.json({ Status: "Success" , name:req.name});
-    // },
+ 
     logout: (req, res) => {
         res.clearCookie('token');
         return res.json({ Status: "Success" })

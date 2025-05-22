@@ -43,16 +43,7 @@ const Notifications = () => {
 
                     )
                     :
-                    <div className="col-md-3 d-flex align-items-center">
-                        <div className="col-md-12">
-                            <div className="blankslate my-0">
-                                <i className="fa fa-chain-broken fs-1 mb-3"></i>
-                                <div className="blankslate-body">
-                                    <h4>No Data Found</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   null
             }
 
         </>
